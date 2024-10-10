@@ -9,6 +9,7 @@ void GUI::runWindow() {
 	sf::Texture startOption3Txt;
 	sf::Texture closeOptionTxt;
 	sf::Texture closeOption2Txt;
+	sf::Texture mapTxt;
 
 	backgroundTxt.loadFromFile("../assets/images/img_unovaRoutes.png");
 	startOptionTxt.loadFromFile("../assets/images/img_start1.png");
@@ -16,6 +17,7 @@ void GUI::runWindow() {
 	startOption3Txt.loadFromFile("../assets/images/img_start3.png");
 	closeOptionTxt.loadFromFile("../assets/images/img_close1.png");
 	closeOption2Txt.loadFromFile("../assets/images/img_close3.png");
+	mapTxt.loadFromFile("../assets/images/img_unovaMap.jpg");
 
 	sf::Sprite backgroundSpr(backgroundTxt);
 	sf::Sprite startOptionSpr(startOptionTxt);
@@ -23,6 +25,7 @@ void GUI::runWindow() {
 	sf::Sprite startOption3Spr(startOption3Txt);
 	sf::Sprite closeOptionSpr(closeOptionTxt);
 	sf::Sprite closeOption2Spr(closeOption2Txt);
+	sf::Sprite mapSpr(mapTxt);
 
 	startOptionSpr.setPosition(400, 330);
 	startOption2Spr.setPosition(400, 330);
@@ -31,7 +34,7 @@ void GUI::runWindow() {
 	closeOptionSpr.setPosition(400, 480);
 	closeOption2Spr.setPosition(400, 480);
 	int posX, posY;
-
+	bool isMapActive = false;
 	while (window.isOpen()) {
 		
 		sf::Event event;
@@ -40,32 +43,42 @@ void GUI::runWindow() {
 				window.close();
 		}
 
-		
-
-		if (event.type==sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
-
-			posX = event.mouseButton.x;
-			posY = event.mouseButton.y;
-			
-			std::cout << "X: " << posX << "\n";
-			std::cout << "Y: " << posY << "\n";
-		}
 
 		window.clear();
-		window.draw(backgroundSpr);
-		window.draw(startOptionSpr);
-		window.draw(closeOptionSpr);
+		
+		if (isMapActive == false) {
+			window.draw(backgroundSpr);
+			window.draw(startOptionSpr);
+			window.draw(closeOptionSpr);
+		}
+		else window.draw(mapSpr);
 
 		if (event.type == sf::Event::MouseMoved) {
-			if ((event.mouseMove.x >= 469 && event.mouseMove.y >= 383) && (event.mouseMove.x <= 862 && event.mouseMove.y <= 460)) {
+			if (startOptionSpr.getGlobalBounds().contains(event.mouseMove.x, event.mouseMove.y) && isMapActive == false) {
 				window.draw(startOption3Spr);
+				//startOptionSpr.setColor(sf::Color(255, 255, 255, 0));
 			}
-			if ((event.mouseMove.x >= 480 && event.mouseMove.y >= 528) && (event.mouseMove.x <= 858 && event.mouseMove.y <= 605)) {
+			if (closeOptionSpr.getGlobalBounds().contains(event.mouseMove.x, event.mouseMove.y) && isMapActive == false) {
 				window.draw(closeOption2Spr);
 			}
 		}
+		
+		if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
 
+			//CODIGO TEMPORAL, SOLO PARA VER COORDENADAS XY
+			posX = event.mouseButton.x;
+			posY = event.mouseButton.y;
 
+			std::cout << "X: " << posX << "\n";
+			std::cout << "Y: " << posY << "\n";
+			//CODIGO TEMPORAL, SOLO PARA VER COORDENADAS XY
+			if (startOption3Spr.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y) && isMapActive == false) {
+				isMapActive = true;
+			}
+			if (closeOption2Spr.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y) && isMapActive == false) {
+				window.close();
+			}
+		}
 		window.display();
 	}
 }
