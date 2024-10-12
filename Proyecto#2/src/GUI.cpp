@@ -3,6 +3,13 @@
 void GUI::runWindow() {
 
 	sf::RenderWindow window(sf::VideoMode(1280, 720), "UNOVA ROUTES");
+	
+	sf::SoundBuffer buttonBuffer;
+
+	buttonBuffer.loadFromFile("../assets/audio/audio_soundEffect.ogg");
+
+	sf::Sound buttonSound(buttonBuffer);
+
 	sf::Texture backgroundTxt;
 	sf::Texture startOptionTxt;
 	sf::Texture startOption2Txt;
@@ -53,14 +60,15 @@ void GUI::runWindow() {
 		}
 		else window.draw(mapSpr);
 
-		if (event.type == sf::Event::MouseMoved) {
-			if (startOptionSpr.getGlobalBounds().contains(event.mouseMove.x, event.mouseMove.y) && isMapActive == false) {
-				window.draw(startOption3Spr);
-				//startOptionSpr.setColor(sf::Color(255, 255, 255, 0));
-			}
-			if (closeOptionSpr.getGlobalBounds().contains(event.mouseMove.x, event.mouseMove.y) && isMapActive == false) {
-				window.draw(closeOption2Spr);
-			}
+		
+		if (startOptionSpr.getGlobalBounds().contains(static_cast<float>(event.mouseMove.x), static_cast<float>(event.mouseMove.y)) && isMapActive == false) {
+			window.draw(startOption3Spr);
+			//buttonSound.play(); //arreglar bug de que solo uno de los dos sucede, que sucedan los 2 al mismo tiempo
+			//sf::sleep(sf::seconds(1));
+		//startOptionSpr.setColor(sf::Color(255, 255, 255, 0));
+		}
+		if (closeOptionSpr.getGlobalBounds().contains(static_cast<float>(event.mouseMove.x), static_cast<float>(event.mouseMove.y)) && isMapActive == false) {
+			window.draw(closeOption2Spr);
 		}
 		
 		if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
@@ -72,10 +80,10 @@ void GUI::runWindow() {
 			std::cout << "X: " << posX << "\n";
 			std::cout << "Y: " << posY << "\n";
 			//CODIGO TEMPORAL, SOLO PARA VER COORDENADAS XY
-			if (startOption3Spr.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y) && isMapActive == false) {
+			if (startOption3Spr.getGlobalBounds().contains(static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y)) && isMapActive == false) {
 				isMapActive = true;
 			}
-			if (closeOption2Spr.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y) && isMapActive == false) {
+			if (closeOption2Spr.getGlobalBounds().contains(static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y)) && isMapActive == false) {
 				window.close();
 			}
 		}
