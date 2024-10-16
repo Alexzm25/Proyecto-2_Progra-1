@@ -1,3 +1,2 @@
-﻿  InputHandler.cpp
-C:\Users\Al3xz\Documents\GitHub\Proyecto-2_Progra-1\Proyecto(7,1): warning C4715: 'InputHandler::isButtonPressedInSprite': not all control paths return a value
+﻿  GUI.cpp
   Proyecto#2_ZunigaAlex.vcxproj -> C:\Users\Al3xz\Documents\GitHub\Proyecto-2_Progra-1\Proyecto#2\Proyecto#2_ZunigaAlex\x64\Debug\Proyecto#2_ZunigaAlex.exe

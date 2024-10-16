@@ -133,14 +133,10 @@
     <ClCompile Include="..\src\GUI.cpp" />
     <ClCompile Include="..\src\InputHandler.cpp" />
     <ClCompile Include="..\src\main.cpp" />
-    <ClCompile Include="..\src\TouristRoutes.cpp" />
-    <ClCompile Include="..\src\TouristSpots.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\header\GUI.h" />
     <ClInclude Include="..\header\InputHandler.h" />
-    <ClInclude Include="..\header\TouristRoutes.h" />
-    <ClInclude Include="..\header\TouristSpots.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

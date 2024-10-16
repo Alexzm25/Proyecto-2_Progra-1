@@ -24,24 +24,12 @@
     <ClCompile Include="..\src\InputHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\TouristRoutes.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\TouristSpots.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\header\GUI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\header\InputHandler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\header\TouristRoutes.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\header\TouristSpots.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

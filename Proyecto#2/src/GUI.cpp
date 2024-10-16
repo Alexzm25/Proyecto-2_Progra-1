@@ -2,10 +2,8 @@
 
 void GUI::runWindow() {
 
-	RenderWindow window(VideoMode(1280, 720), "UNOVA ROUTES", Style::Titlebar | Style::Close);
+	RenderWindow window(VideoMode(1280, 720), "UNOVA ROUTES");
 	window.setFramerateLimit(30);
-
-	InputHandler input;
 
 	SoundBuffer buttonBuffer;
 
@@ -58,22 +56,25 @@ void GUI::runWindow() {
 		window.clear();
 		
 		if (gameMode == MENU_MODE) {
-			if (!input.isMouseOverButton(&startOptionSpr, &event) && !input.isMouseOverButton(&closeOptionSpr, &event)){
+			if (!startOptionSpr.getGlobalBounds().contains(static_cast<float>(event.mouseMove.x), static_cast<float>(event.mouseMove.y))
+				&& !closeOptionSpr.getGlobalBounds().contains(static_cast<float>(event.mouseMove.x), static_cast<float>(event.mouseMove.y))) {
 				isSoundPlayable = true;
 			}
 			
+
 			window.draw(backgroundSpr);
 			window.draw(startOptionSpr);
 			window.draw(closeOptionSpr);
 
-			if (input.isMouseOverButton(&startOptionSpr, &event)) {
+
+			if (startOptionSpr.getGlobalBounds().contains(static_cast<float>(event.mouseMove.x), static_cast<float>(event.mouseMove.y))) {
 				if (isSoundPlayable) buttonSound.play();
 				sleep(milliseconds(100));
 				window.draw(startOption3Spr);
 				isSoundPlayable = false;
 			}
 
-			if (input.isMouseOverButton(&closeOptionSpr, &event)) {
+			if (closeOptionSpr.getGlobalBounds().contains(static_cast<float>(event.mouseMove.x), static_cast<float>(event.mouseMove.y))) {
 				if (isSoundPlayable) buttonSound.play();
 				sleep(milliseconds(100));
 				window.draw(closeOption2Spr);
@@ -81,7 +82,7 @@ void GUI::runWindow() {
 
 			}
 
-			if (input.isButtonPressed(&event)) {
+			if (event.type == Event::MouseButtonPressed && event.mouseButton.button == Mouse::Left) {
 
 				//CODIGO TEMPORAL, SOLO PARA VER COORDENADAS XY
 				posX = event.mouseButton.x;
@@ -90,11 +91,10 @@ void GUI::runWindow() {
 				cout << "X: " << posX << "\n";
 				cout << "Y: " << posY << "\n";
 				//CODIGO TEMPORAL, SOLO PARA VER COORDENADAS XY
-				//startOption3Spr
-				if (input.isButtonPressedInSprite(&event, &startOption3Spr)) {
+				if (startOption3Spr.getGlobalBounds().contains(static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y))) {
 					gameMode = 0;
 				}
-				if (input.isButtonPressedInSprite(&event, &closeOptionSpr)) {
+				if (closeOption2Spr.getGlobalBounds().contains(static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y))) {
 					window.close();
 				}
 			}
