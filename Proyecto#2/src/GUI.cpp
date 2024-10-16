@@ -2,14 +2,23 @@
 
 void GUI::runWindow() {
 
-	RenderWindow window(VideoMode(1280, 720), "UNOVA ROUTES");
+	RenderWindow window(VideoMode(1280, 720), "UNOVA ROUTES", Style::Titlebar | Style::Close);
 	window.setFramerateLimit(30);
+
+	InputHandler input;
 
 	SoundBuffer buttonBuffer;
 
 	buttonBuffer.loadFromFile("../assets/audio/audio_soundEffect.ogg");
 
 	Sound buttonSound(buttonBuffer);
+
+	Music backgroundMusic;
+
+	backgroundMusic.openFromFile("../assets/audio/audio_backgroundMusic.ogg");
+	backgroundMusic.setLoop(true);
+	backgroundMusic.setVolume(8);
+	backgroundMusic.play();
 
 	Texture backgroundTxt;
 	Texture startOptionTxt;
@@ -56,8 +65,7 @@ void GUI::runWindow() {
 		window.clear();
 		
 		if (gameMode == MENU_MODE) {
-			if (!startOptionSpr.getGlobalBounds().contains(static_cast<float>(event.mouseMove.x), static_cast<float>(event.mouseMove.y))
-				&& !closeOptionSpr.getGlobalBounds().contains(static_cast<float>(event.mouseMove.x), static_cast<float>(event.mouseMove.y))) {
+			if (!input.isMouseInButton(&event, &startOptionSpr) && !input.isMouseInButton(&event, &closeOptionSpr)) {
 				isSoundPlayable = true;
 			}
 			
@@ -66,15 +74,16 @@ void GUI::runWindow() {
 			window.draw(startOptionSpr);
 			window.draw(closeOptionSpr);
 
+			
 
-			if (startOptionSpr.getGlobalBounds().contains(static_cast<float>(event.mouseMove.x), static_cast<float>(event.mouseMove.y))) {
+			if (input.isMouseInButton(&event, &startOptionSpr)) {
 				if (isSoundPlayable) buttonSound.play();
 				sleep(milliseconds(100));
 				window.draw(startOption3Spr);
 				isSoundPlayable = false;
 			}
 
-			if (closeOptionSpr.getGlobalBounds().contains(static_cast<float>(event.mouseMove.x), static_cast<float>(event.mouseMove.y))) {
+			if (input.isMouseInButton(&event, &closeOptionSpr)) {
 				if (isSoundPlayable) buttonSound.play();
 				sleep(milliseconds(100));
 				window.draw(closeOption2Spr);
@@ -82,7 +91,7 @@ void GUI::runWindow() {
 
 			}
 
-			if (event.type == Event::MouseButtonPressed && event.mouseButton.button == Mouse::Left) {
+			if (input.isButtonPressed(&event)) {
 
 				//CODIGO TEMPORAL, SOLO PARA VER COORDENADAS XY
 				posX = event.mouseButton.x;
@@ -91,10 +100,10 @@ void GUI::runWindow() {
 				cout << "X: " << posX << "\n";
 				cout << "Y: " << posY << "\n";
 				//CODIGO TEMPORAL, SOLO PARA VER COORDENADAS XY
-				if (startOption3Spr.getGlobalBounds().contains(static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y))) {
+				if (input.isButtonPressedInSprite(&event,&startOption3Spr)) {
 					gameMode = 0;
 				}
-				if (closeOption2Spr.getGlobalBounds().contains(static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y))) {
+				if (input.isButtonPressedInSprite(&event, &closeOption2Spr)) {
 					window.close();
 				}
 			}

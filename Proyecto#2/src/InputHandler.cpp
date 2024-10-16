@@ -1,14 +1,15 @@
 #include "../header/InputHandler.h"
 
 bool InputHandler::isButtonPressed(Event* event) {
-	if (event->type == Event::MouseButtonPressed && event->mouseButton.button == Mouse::Left) {
-		return true;
-	}
-	else return false;
+	
+	return (event->type == Event::MouseButtonPressed && event->mouseButton.button == Mouse::Left);
+	
 }
-bool InputHandler::isMouseInButton(Sprite* button, Event* event) {
-	if (button->getGlobalBounds().contains(static_cast<float>(event->mouseMove.x), static_cast<float>(event->mouseMove.y))) {
-		return true;
-	}
-	else return false;
+bool InputHandler::isMouseInButton(Event* event, Sprite* button) {
+
+	return (button->getGlobalBounds().contains(static_cast<float>(event->mouseMove.x), static_cast<float>(event->mouseMove.y)));
+}
+bool InputHandler::isButtonPressedInSprite(Event* event, Sprite* sprite) {
+	
+	return (sprite->getGlobalBounds().contains(static_cast<float>(event->mouseButton.x), static_cast<float>(event->mouseButton.y)));
 }
