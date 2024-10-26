@@ -20,7 +20,6 @@ public:
 template<typename T>
 List<T>::List() {
 	head = nullptr;
-
 }
 
 template <typename T>
