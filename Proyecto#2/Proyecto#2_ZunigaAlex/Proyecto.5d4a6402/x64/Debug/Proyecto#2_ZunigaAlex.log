@@ -1,2 +1,6 @@
 ﻿  GUI.cpp
+  Routes.cpp
+C:\Users\Al3xz\Documents\GitHub\Proyecto-2_Progra-1\Proyecto(20,13): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Al3xz\Documents\GitHub\Proyecto-2_Progra-1\Proyecto(21,13): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+  Generating Code...
   Proyecto#2_ZunigaAlex.vcxproj -> C:\Users\Al3xz\Documents\GitHub\Proyecto-2_Progra-1\Proyecto#2\Proyecto#2_ZunigaAlex\x64\Debug\Proyecto#2_ZunigaAlex.exe

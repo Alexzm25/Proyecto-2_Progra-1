@@ -80,8 +80,8 @@ void GUI::runWindow() {
 
 	int posX, posY;
 	bool isSoundPlayable = true;
-	int gameMode = 1;
-
+	int gameMode = 1, mapMode = 0;
+	
 	while (window.isOpen()) {
 
 		Event event;
@@ -97,12 +97,9 @@ void GUI::runWindow() {
 				isSoundPlayable = true;
 			}
 			
-
 			window.draw(backgroundSpr);
 			window.draw(startOptionSpr);
 			window.draw(closeOptionSpr);
-
-			
 
 			if (input.isMouseInButton(&event, &startOptionSpr)) {
 				if (isSoundPlayable) buttonSound.play();
@@ -121,15 +118,8 @@ void GUI::runWindow() {
 
 			if (input.isButtonPressed(&event)) {
 
-				//CODIGO TEMPORAL, SOLO PARA VER COORDENADAS XY
-				posX = event.mouseButton.x;
-				posY = event.mouseButton.y;
-
-				cout << "X: " << posX << "\n";
-				cout << "Y: " << posY << "\n";
-				//CODIGO TEMPORAL, SOLO PARA VER COORDENADAS XY
 				if (input.isButtonPressedInSprite(&event,&startOption3Spr)) {
-					gameMode = 0;
+					gameMode = MAP_MODE;
 				}
 				if (input.isButtonPressedInSprite(&event, &closeOption2Spr)) {
 					window.close();
@@ -142,24 +132,46 @@ void GUI::runWindow() {
 			window.draw(mapSpr);
 			window.draw(colorPaletteSpr);
 			window.draw(goBackSButtonSpr);
-			window.draw(insertButtonSpr);
-			window.draw(editButtonSpr);
+			
 			window.draw(saveButtonSpr);
 
-			if (input.isButtonPressed(&event)) {
+			if (mapMode == INSERT_MODE) {
 
-				if (input.isButtonPressedInSprite(&event, &goBackSButtonSpr)) gameMode = 1;
-
-
-				//CODIGO TEMPORAL, SOLO PARA VER COORDENADAS XY
-				posX = event.mouseButton.x;
-				posY = event.mouseButton.y;
-
-				cout << "X: " << posX << "\n";
-				cout << "Y: " << posY << "\n";
-				//CODIGO TEMPORAL, SOLO PARA VER COORDENADAS XY
-				
 			}
+			else if (mapMode == EDIT_MODE) {
+
+			}
+			else {
+
+				window.draw(insertButtonSpr);
+				window.draw(editButtonSpr);
+
+				if (input.isButtonPressed(&event)) {
+
+					if (input.isButtonPressedInSprite(&event, &goBackSButtonSpr)) gameMode = 1;
+
+
+					//CODIGO TEMPORAL, SOLO PARA VER COORDENADAS XY
+					posX = event.mouseButton.x;
+					posY = event.mouseButton.y;
+
+					cout << "X: " << posX << "\n";
+					cout << "Y: " << posY << "\n";
+					//CODIGO TEMPORAL, SOLO PARA VER COORDENADAS XY
+
+
+					if (input.isButtonPressedInSprite(&event, &insertButtonSpr)) {
+						mapMode = INSERT_MODE;
+	
+					}
+
+					if (input.isButtonPressedInSprite(&event, &editButtonSpr)) {
+						mapMode = EDIT_MODE;
+					}
+				}
+			}
+
+			
 		}
 		window.display();
 	}
