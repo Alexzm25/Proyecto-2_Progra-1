@@ -58,7 +58,7 @@ void List<T>::printNodes() {
 		Node<T>* temp = head;
 		while (temp != nullptr) {
 
-			cout << *(temp->getData()) << "\t";
+			cout << *(temp->getData()) << "\n";
 			temp = temp->getNext();
 		}
 		cout << "\n";

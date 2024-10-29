@@ -21,4 +21,5 @@ public:
 	void setPointName(string pointName) { this->pointName = pointName; }
 	Color getPointColor() { return pointColor; }
 	void setPointColor(Color pointColor) { this->pointColor = pointColor; }
+	friend ostream& operator<<(ostream& os, const TouristPoint& point);
 };

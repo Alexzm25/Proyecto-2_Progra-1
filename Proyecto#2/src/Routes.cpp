@@ -23,5 +23,5 @@ void Routes::addPointToRoute(Event* event) {
 	newPoint = new TouristPoint(posX, posY, pointName, Color::Yellow);
 	
 	route->addNode(newPoint);
-	//route->printNodes(); estudiar sobrecarga de operadores
+	route->printNodes(); //estudiar sobrecarga de operadores
 }

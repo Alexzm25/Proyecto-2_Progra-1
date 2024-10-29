@@ -17,7 +17,7 @@ void GUI::runWindow() {
 
 	backgroundMusic.openFromFile("../assets/audio/audio_backgroundMusic.ogg");
 	backgroundMusic.setLoop(true);
-	backgroundMusic.setVolume(8);
+	backgroundMusic.setVolume(1);
 	backgroundMusic.play();
 
 	Texture backgroundTxt;
@@ -81,6 +81,7 @@ void GUI::runWindow() {
 	int posX, posY;
 	bool isSoundPlayable = true;
 	int gameMode = 1, mapMode = 0;
+	Routes listOfRoutes;
 	
 	while (window.isOpen()) {
 
@@ -136,6 +137,11 @@ void GUI::runWindow() {
 			window.draw(saveButtonSpr);
 
 			if (mapMode == INSERT_MODE) {
+				if (input.isButtonPressed(&event)) {
+					if (input.isButtonPressedInSprite(&event, &mapSpr)) {
+						listOfRoutes.addPointToRoute(&event);
+					}
+				}
 
 			}
 			else if (mapMode == EDIT_MODE) {
@@ -162,7 +168,7 @@ void GUI::runWindow() {
 
 					if (input.isButtonPressedInSprite(&event, &insertButtonSpr)) {
 						mapMode = INSERT_MODE;
-	
+						listOfRoutes.addRoute();
 					}
 
 					if (input.isButtonPressedInSprite(&event, &editButtonSpr)) {
