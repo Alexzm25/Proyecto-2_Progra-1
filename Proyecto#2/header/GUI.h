@@ -7,6 +7,7 @@
 #define MENU_MODE 1
 #define INSERT_MODE 2
 #define EDIT_MODE 3
+#define VIEW_MODE 4
 
 class GUI {
 public:

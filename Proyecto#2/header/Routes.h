@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 #include "../header/List.h"
 #include "../header/TouristPoint.h"
 

@@ -15,7 +15,7 @@ void Routes::addPointToRoute(Event* event) {
 	string pointName;
 
 	cout << "Digite el nombre del punto: \n";
-	cin >> pointName;;
+	getline(cin, pointName);
 
 	float posX = event->mouseButton.x;
 	float posY = event->mouseButton.y;

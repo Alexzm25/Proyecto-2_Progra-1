@@ -28,8 +28,11 @@ void GUI::runWindow() {
 	Texture closeOptionTxt;
 	Texture closeOption2Txt;
 	Texture insertButtonTxt;
+	Texture insertButton2Txt;
 	Texture editButtonTxt;
+	Texture editButton2Txt;
 	Texture saveButtonTxt;
+	Texture saveButton2Txt;
 	Texture goBackButtonTxt;
 	Texture mapTxt;
 	Texture colorPaletteTxt;
@@ -41,8 +44,11 @@ void GUI::runWindow() {
 	closeOptionTxt.loadFromFile("../assets/images/img_close1.png");
 	closeOption2Txt.loadFromFile("../assets/images/img_close3.png");
 	insertButtonTxt.loadFromFile("../assets/images/img_insertButton.png");
+	insertButton2Txt.loadFromFile("../assets/images/img_insertButton2.png");
 	editButtonTxt.loadFromFile("../assets/images/img_editButton.png");
+	editButton2Txt.loadFromFile("../assets/images/img_editButton2.png");
 	saveButtonTxt.loadFromFile("../assets/images/img_saveButton.png");
+	saveButton2Txt.loadFromFile("../assets/images/img_saveButton2.png");
 	goBackButtonTxt.loadFromFile("../assets/images/img_arrow.png");
 	mapBackgroundTxt.loadFromFile("../assets/images/img_mapBackground.png");
 	mapTxt.loadFromFile("../assets/images/img_unovaMap.jpg");
@@ -57,9 +63,12 @@ void GUI::runWindow() {
 	Sprite closeOptionSpr(closeOptionTxt);
 	Sprite closeOption2Spr(closeOption2Txt);
 	Sprite insertButtonSpr(insertButtonTxt);
+	Sprite insertButton2Spr(insertButton2Txt);
 	Sprite editButtonSpr(editButtonTxt);
+	Sprite editButton2Spr(editButton2Txt);
 	Sprite saveButtonSpr(saveButtonTxt);
-	Sprite goBackSButtonSpr(goBackButtonTxt);
+	Sprite saveButton2Spr(saveButton2Txt);
+	Sprite goBackButtonSpr(goBackButtonTxt);
 	Sprite mapBackgroundSpr(mapBackgroundTxt);
 	Sprite mapSpr(mapTxt);
 	Sprite colorPaletteSpr(colorPaletteTxt);
@@ -72,13 +81,19 @@ void GUI::runWindow() {
 	closeOption2Spr.setPosition(400, 520);
 
 	insertButtonSpr.setPosition(160, 580);
+	insertButton2Spr.setPosition(160, 580);
+
 	editButtonSpr.setPosition(535, 580);
+	editButton2Spr.setPosition(535, 580);
+
 	saveButtonSpr.setPosition(1030, 425);
-	goBackSButtonSpr.setPosition(1, 670);
+	saveButton2Spr.setPosition(1030, 425);
+
+	goBackButtonSpr.setPosition(1, 670);
 
 	colorPaletteSpr.setPosition(984, 580);
 
-	int posX, posY;
+	int posX, posY, counter = 0;
 	bool isSoundPlayable = true;
 	int gameMode = 1, mapMode = 0;
 	Routes listOfRoutes;
@@ -117,14 +132,11 @@ void GUI::runWindow() {
 
 			}
 
-			if (input.isButtonPressed(&event)) {
-
-				if (input.isButtonPressedInSprite(&event,&startOption3Spr)) {
+			if (input.isButtonPressedInSprite(&event,&startOption3Spr)) {
 					gameMode = MAP_MODE;
-				}
-				if (input.isButtonPressedInSprite(&event, &closeOption2Spr)) {
+			}
+			if (input.isButtonPressedInSprite(&event, &closeOption2Spr)) {
 					window.close();
-				}
 			}
 		}
 
@@ -132,31 +144,49 @@ void GUI::runWindow() {
 			window.draw(mapBackgroundSpr);
 			window.draw(mapSpr);
 			window.draw(colorPaletteSpr);
-			window.draw(goBackSButtonSpr);
+			window.draw(goBackButtonSpr);
 			
 			window.draw(saveButtonSpr);
 
 			if (mapMode == INSERT_MODE) {
-				if (input.isButtonPressed(&event)) {
-					if (input.isButtonPressedInSprite(&event, &mapSpr)) {
-						listOfRoutes.addPointToRoute(&event);
-					}
-				}
 
+				if (input.isButtonPressedInSprite(&event, &mapSpr)) {
+					listOfRoutes.addPointToRoute(&event);
+					counter++;
+				}
+				if (input.isMouseInButton(&event, &saveButtonSpr)) {
+					window.draw(saveButton2Spr);
+				}
+				if (input.isButtonPressedInSprite(&event, &saveButtonSpr) && counter >= 2) { //si el counter == a 2 quiere decir que hay 2 puntos minimo
+					counter = 0;
+					mapMode = VIEW_MODE;
+					//programar funcion para guardar los puntos en un archivo.txt
+				}
 			}
 			else if (mapMode == EDIT_MODE) {
-
+				//programarlo luego
 			}
 			else {
 
 				window.draw(insertButtonSpr);
 				window.draw(editButtonSpr);
 
+				if (input.isButtonPressedInSprite(&event, &goBackButtonSpr)) gameMode = 1;
+
+				if (input.isMouseInButton(&event, &insertButtonSpr)) {
+					window.draw(insertButton2Spr);
+				}
+				if (input.isButtonPressedInSprite(&event, &insertButtonSpr)) {
+					mapMode = INSERT_MODE;
+					listOfRoutes.addRoute();
+				}
+				if (input.isMouseInButton(&event, &editButtonSpr)) {
+					window.draw(editButton2Spr);
+				}
+				if (input.isButtonPressedInSprite(&event, &editButton2Spr)) {
+					mapMode = EDIT_MODE;
+				}
 				if (input.isButtonPressed(&event)) {
-
-					if (input.isButtonPressedInSprite(&event, &goBackSButtonSpr)) gameMode = 1;
-
-
 					//CODIGO TEMPORAL, SOLO PARA VER COORDENADAS XY
 					posX = event.mouseButton.x;
 					posY = event.mouseButton.y;
@@ -164,20 +194,8 @@ void GUI::runWindow() {
 					cout << "X: " << posX << "\n";
 					cout << "Y: " << posY << "\n";
 					//CODIGO TEMPORAL, SOLO PARA VER COORDENADAS XY
-
-
-					if (input.isButtonPressedInSprite(&event, &insertButtonSpr)) {
-						mapMode = INSERT_MODE;
-						listOfRoutes.addRoute();
-					}
-
-					if (input.isButtonPressedInSprite(&event, &editButtonSpr)) {
-						mapMode = EDIT_MODE;
-					}
 				}
 			}
-
-			
 		}
 		window.display();
 	}
