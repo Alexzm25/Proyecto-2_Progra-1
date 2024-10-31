@@ -93,7 +93,6 @@ void GUI::windowDisplay() {
 		else {
 			mapDisplay();
 		}
-
 		window->display();
 	}
 }

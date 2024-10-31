@@ -4,12 +4,12 @@
 #include "../header/TouristPoint.h"
 
 
-class Routes {
+class RouteList {
 private:
 	List<List<TouristPoint>> routesList;
 	List<TouristPoint>* route;
 public:
-	Routes();
+	RouteList();
 	void addRoute();
 	void addPointToRoute(Event*);
 };

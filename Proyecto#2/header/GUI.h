@@ -1,7 +1,7 @@
 #include <SFML/System.hpp>
 #include <SFML/Audio.hpp>
 #include "../header/InputHandler.h"
-#include "../header/Routes.h"
+#include "../header/RouteList.h"
 
 #define MAP_MODE 0
 #define MENU_MODE 1
@@ -17,7 +17,7 @@ private:
 	Music backgroundMusic;
 	InputHandler input;
 	Event event;
-	Routes listOfRoutes;
+	RouteList listOfRoutes;
 
 	Texture backgroundTxt;
 	Texture startOptionTxt;
@@ -64,5 +64,4 @@ public:
 	void menuDisplay();
 	void mapDisplay();
 	void windowDisplay();
-	void runWindow();
 };

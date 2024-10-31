@@ -24,10 +24,10 @@
     <ClCompile Include="..\src\InputHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\Routes.cpp">
+    <ClCompile Include="..\src\TouristPoint.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\TouristPoint.cpp">
+    <ClCompile Include="..\src\RouteList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -44,10 +44,10 @@
     <ClInclude Include="..\header\Node.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\header\Routes.h">
+    <ClInclude Include="..\header\TouristPoint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\header\TouristPoint.h">
+    <ClInclude Include="..\header\RouteList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,16 +1,16 @@
-#include "../header/Routes.h"
+#include "../header/RouteList.h"
 
-Routes::Routes() {
+RouteList::RouteList() {
 	route = nullptr;
 }
 
-void Routes::addRoute() {
+void RouteList::addRoute() {
 	route = new List<TouristPoint>;
 	routesList.addNode(route);
-	
+
 }
 
-void Routes::addPointToRoute(Event* event) {
+void RouteList::addPointToRoute(Event* event) {
 	TouristPoint* newPoint = nullptr;
 	string pointName;
 
@@ -21,7 +21,7 @@ void Routes::addPointToRoute(Event* event) {
 	float posY = event->mouseButton.y;
 
 	newPoint = new TouristPoint(posX, posY, pointName, Color::Yellow);
-	
+
 	route->addNode(newPoint);
-	route->printNodes(); //estudiar sobrecarga de operadores
+	route->printNodes();
 }
