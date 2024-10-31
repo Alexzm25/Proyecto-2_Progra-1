@@ -4,5 +4,6 @@ using namespace std;
 
 int main() {
 	GUI test;
-	test.runWindow();
+	//test.runWindow();
+	test.windowDisplay();
 }

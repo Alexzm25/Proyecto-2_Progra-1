@@ -1,41 +1,21 @@
 #include "../header/GUI.h"
 
-void GUI::runWindow() {
+GUI::GUI() {
 
-	RenderWindow window(VideoMode(1280, 720), "UNOVA ROUTES", Style::Titlebar | Style::Close);
-	window.setFramerateLimit(30);
-
-	InputHandler input;
-
-	SoundBuffer buttonBuffer;
+	window = new RenderWindow(VideoMode(1280, 720), "UNOVA ROUTES", Style::Titlebar | Style::Close);
+	window->setFramerateLimit(30);
 
 	buttonBuffer.loadFromFile("../assets/audio/audio_soundEffect.ogg");
 
-	Sound buttonSound(buttonBuffer);
-
-	Music backgroundMusic;
+	buttonSound.setBuffer(buttonBuffer);
 
 	backgroundMusic.openFromFile("../assets/audio/audio_backgroundMusic.ogg");
-	backgroundMusic.setLoop(true);
-	backgroundMusic.setVolume(1);
-	backgroundMusic.play();
 
-	Texture backgroundTxt;
-	Texture mapBackgroundTxt;
-	Texture startOptionTxt;
-	Texture startOption2Txt;
-	Texture startOption3Txt;
-	Texture closeOptionTxt;
-	Texture closeOption2Txt;
-	Texture insertButtonTxt;
-	Texture insertButton2Txt;
-	Texture editButtonTxt;
-	Texture editButton2Txt;
-	Texture saveButtonTxt;
-	Texture saveButton2Txt;
-	Texture goBackButtonTxt;
-	Texture mapTxt;
-	Texture colorPaletteTxt;
+	gameMode = MENU_MODE;
+
+	mapMode = VIEW_MODE;
+	isSoundPlayable = true;
+	counter = 0;
 
 	backgroundTxt.loadFromFile("../assets/images/img_unovaRoutes.png");
 	startOptionTxt.loadFromFile("../assets/images/img_start1.png");
@@ -43,6 +23,7 @@ void GUI::runWindow() {
 	startOption3Txt.loadFromFile("../assets/images/img_start3.png");
 	closeOptionTxt.loadFromFile("../assets/images/img_close1.png");
 	closeOption2Txt.loadFromFile("../assets/images/img_close3.png");
+
 	insertButtonTxt.loadFromFile("../assets/images/img_insertButton.png");
 	insertButton2Txt.loadFromFile("../assets/images/img_insertButton2.png");
 	editButtonTxt.loadFromFile("../assets/images/img_editButton.png");
@@ -54,24 +35,23 @@ void GUI::runWindow() {
 	mapTxt.loadFromFile("../assets/images/img_unovaMap.jpg");
 	colorPaletteTxt.loadFromFile("../assets/images/img_colorPalette.png");
 
+	backgroundSpr.setTexture(backgroundTxt);
+	startOptionSpr.setTexture(startOptionTxt);
+	startOption2Spr.setTexture(startOption2Txt);
+	startOption3Spr.setTexture(startOption3Txt);
+	closeOptionSpr.setTexture(closeOptionTxt);
+	closeOption2Spr.setTexture(closeOption2Txt);
 
-
-	Sprite backgroundSpr(backgroundTxt);
-	Sprite startOptionSpr(startOptionTxt);
-	Sprite startOption2Spr(startOption2Txt);
-	Sprite startOption3Spr(startOption3Txt);
-	Sprite closeOptionSpr(closeOptionTxt);
-	Sprite closeOption2Spr(closeOption2Txt);
-	Sprite insertButtonSpr(insertButtonTxt);
-	Sprite insertButton2Spr(insertButton2Txt);
-	Sprite editButtonSpr(editButtonTxt);
-	Sprite editButton2Spr(editButton2Txt);
-	Sprite saveButtonSpr(saveButtonTxt);
-	Sprite saveButton2Spr(saveButton2Txt);
-	Sprite goBackButtonSpr(goBackButtonTxt);
-	Sprite mapBackgroundSpr(mapBackgroundTxt);
-	Sprite mapSpr(mapTxt);
-	Sprite colorPaletteSpr(colorPaletteTxt);
+	insertButtonSpr.setTexture(insertButtonTxt);
+	insertButton2Spr.setTexture(insertButton2Txt);
+	editButtonSpr.setTexture(editButtonTxt);
+	editButton2Spr.setTexture(editButton2Txt);
+	saveButtonSpr.setTexture(saveButtonTxt);
+	saveButton2Spr.setTexture(saveButton2Txt);
+	goBackButtonSpr.setTexture(goBackButtonTxt);
+	mapBackgroundSpr.setTexture(mapBackgroundTxt);
+	mapSpr.setTexture(mapTxt);
+	colorPaletteSpr.setTexture(colorPaletteTxt);
 
 	startOptionSpr.setPosition(400, 330);
 	startOption2Spr.setPosition(400, 330);
@@ -93,110 +73,120 @@ void GUI::runWindow() {
 
 	colorPaletteSpr.setPosition(984, 580);
 
-	int posX, posY, counter = 0;
-	bool isSoundPlayable = true;
-	int gameMode = 1, mapMode = 0;
-	Routes listOfRoutes;
+}
+
+void GUI::windowDisplay() {
+
+	backgroundMusic.setLoop(true);
+	backgroundMusic.setVolume(7);
+	backgroundMusic.play();
 	
-	while (window.isOpen()) {
-
-		Event event;
-		while (window.pollEvent(event)) {
+	while (window->isOpen()) {
+		while (window->pollEvent(event)) {
 			if (event.type == Event::Closed)
-				window.close();
+				window->close();
 		}
 
-		window.clear();
-		
 		if (gameMode == MENU_MODE) {
-			if (!input.isMouseInButton(&event, &startOptionSpr) && !input.isMouseInButton(&event, &closeOptionSpr)) {
-				isSoundPlayable = true;
-			}
-			
-			window.draw(backgroundSpr);
-			window.draw(startOptionSpr);
-			window.draw(closeOptionSpr);
-
-			if (input.isMouseInButton(&event, &startOptionSpr)) {
-				if (isSoundPlayable) buttonSound.play();
-				sleep(milliseconds(100));
-				window.draw(startOption3Spr);
-				isSoundPlayable = false;
-			}
-
-			if (input.isMouseInButton(&event, &closeOptionSpr)) {
-				if (isSoundPlayable) buttonSound.play();
-				sleep(milliseconds(100));
-				window.draw(closeOption2Spr);
-				isSoundPlayable = false;
-
-			}
-
-			if (input.isButtonPressedInSprite(&event,&startOption3Spr)) {
-					gameMode = MAP_MODE;
-			}
-			if (input.isButtonPressedInSprite(&event, &closeOption2Spr)) {
-					window.close();
-			}
+			menuDisplay();
 		}
-
 		else {
-			window.draw(mapBackgroundSpr);
-			window.draw(mapSpr);
-			window.draw(colorPaletteSpr);
-			window.draw(goBackButtonSpr);
-			
-			window.draw(saveButtonSpr);
-
-			if (mapMode == INSERT_MODE) {
-
-				if (input.isButtonPressedInSprite(&event, &mapSpr)) {
-					listOfRoutes.addPointToRoute(&event);
-					counter++;
-				}
-				if (input.isMouseInButton(&event, &saveButtonSpr)) {
-					window.draw(saveButton2Spr);
-				}
-				if (input.isButtonPressedInSprite(&event, &saveButtonSpr) && counter >= 2) { //si el counter == a 2 quiere decir que hay 2 puntos minimo
-					counter = 0;
-					mapMode = VIEW_MODE;
-					//programar funcion para guardar los puntos en un archivo.txt
-				}
-			}
-			else if (mapMode == EDIT_MODE) {
-				//programarlo luego
-			}
-			else {
-
-				window.draw(insertButtonSpr);
-				window.draw(editButtonSpr);
-
-				if (input.isButtonPressedInSprite(&event, &goBackButtonSpr)) gameMode = 1;
-
-				if (input.isMouseInButton(&event, &insertButtonSpr)) {
-					window.draw(insertButton2Spr);
-				}
-				if (input.isButtonPressedInSprite(&event, &insertButtonSpr)) {
-					mapMode = INSERT_MODE;
-					listOfRoutes.addRoute();
-				}
-				if (input.isMouseInButton(&event, &editButtonSpr)) {
-					window.draw(editButton2Spr);
-				}
-				if (input.isButtonPressedInSprite(&event, &editButton2Spr)) {
-					mapMode = EDIT_MODE;
-				}
-				if (input.isButtonPressed(&event)) {
-					//CODIGO TEMPORAL, SOLO PARA VER COORDENADAS XY
-					posX = event.mouseButton.x;
-					posY = event.mouseButton.y;
-
-					cout << "X: " << posX << "\n";
-					cout << "Y: " << posY << "\n";
-					//CODIGO TEMPORAL, SOLO PARA VER COORDENADAS XY
-				}
-			}
+			mapDisplay();
 		}
-		window.display();
+
+		window->display();
 	}
 }
+
+void GUI::menuDisplay() {
+
+	if (!input.isMouseInButton(&event, &startOptionSpr) && !input.isMouseInButton(&event, &closeOptionSpr)) {
+		isSoundPlayable = true;
+	}
+
+	window->draw(backgroundSpr);
+	window->draw(startOptionSpr);
+	window->draw(closeOptionSpr);
+
+	if (input.isMouseInButton(&event, &startOptionSpr)) {
+		if (isSoundPlayable) buttonSound.play();
+		sleep(milliseconds(100));
+		window->draw(startOption3Spr);
+		isSoundPlayable = false;
+	}
+
+	if (input.isMouseInButton(&event, &closeOptionSpr)) {
+		if (isSoundPlayable) buttonSound.play();
+		sleep(milliseconds(100));
+		window->draw(closeOption2Spr);
+		isSoundPlayable = false;
+
+	}
+
+	if (input.isButtonPressedInSprite(&event, &startOption3Spr)) {
+		gameMode = MAP_MODE;
+	}
+	if (input.isButtonPressedInSprite(&event, &closeOption2Spr)) {
+		window->close();
+	}
+}
+
+void GUI::mapDisplay() {
+
+	window->draw(mapBackgroundSpr);
+	window->draw(mapSpr);
+	window->draw(colorPaletteSpr);
+	window->draw(goBackButtonSpr);
+
+	window->draw(saveButtonSpr);
+
+	if (mapMode == INSERT_MODE) {
+
+		if (input.isButtonPressedInSprite(&event, &mapSpr)) {
+			listOfRoutes.addPointToRoute(&event);
+			counter++;
+		}
+		if (input.isMouseInButton(&event, &saveButtonSpr)) {
+			window->draw(saveButton2Spr);
+		}
+		if (input.isButtonPressedInSprite(&event, &saveButtonSpr) && counter >= 2) { //si el counter == a 2 quiere decir que hay 2 puntos minimo
+			counter = 0;
+			mapMode = VIEW_MODE;
+			//programar funcion para guardar los puntos en un archivo.txt
+		}
+	}
+	else if (mapMode == EDIT_MODE) {
+		//programarlo luego
+	}
+	else {
+
+		window->draw(insertButtonSpr);
+		window->draw(editButtonSpr);
+
+		if (input.isButtonPressedInSprite(&event, &goBackButtonSpr)) gameMode = 1;
+
+		if (input.isMouseInButton(&event, &insertButtonSpr)) {
+			window->draw(insertButton2Spr);
+		}
+		if (input.isButtonPressedInSprite(&event, &insertButtonSpr)) {
+			mapMode = INSERT_MODE;
+			listOfRoutes.addRoute();
+		}
+		if (input.isMouseInButton(&event, &editButtonSpr)) {
+			window->draw(editButton2Spr);
+		}
+		if (input.isButtonPressedInSprite(&event, &editButton2Spr)) {
+			mapMode = EDIT_MODE;
+		}
+		if (input.isButtonPressed(&event)) {
+			//CODIGO TEMPORAL, SOLO PARA VER COORDENADAS XY
+			//posX = event.mouseButton.x;
+			//posY = event.mouseButton.y;
+
+			//cout << "X: " << posX << "\n";
+			//cout << "Y: " << posY << "\n";
+			//CODIGO TEMPORAL, SOLO PARA VER COORDENADAS XY
+		}
+	}
+}
+
