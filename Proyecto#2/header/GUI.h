@@ -55,12 +55,18 @@ private:
 	Sprite mapSpr;
 	Sprite colorPaletteSpr;
 
+	CircleShape wayPoint;
+
 	bool isSoundPlayable;
 	int counter;
 	int gameMode;
 	int mapMode;
 public:
 	GUI();
+	void setPositionSprite();
+	void setTexturesInSprite();
+	void loadFiles();
+	void drawTouristPoint();
 	void menuDisplay();
 	void mapDisplay();
 	void windowDisplay();

@@ -5,11 +5,9 @@ GUI::GUI() {
 	window = new RenderWindow(VideoMode(1280, 720), "UNOVA ROUTES", Style::Titlebar | Style::Close);
 	window->setFramerateLimit(30);
 
-	buttonBuffer.loadFromFile("../assets/audio/audio_soundEffect.ogg");
+	wayPoint.setRadius(15);
 
 	buttonSound.setBuffer(buttonBuffer);
-
-	backgroundMusic.openFromFile("../assets/audio/audio_backgroundMusic.ogg");
 
 	gameMode = MENU_MODE;
 
@@ -17,23 +15,32 @@ GUI::GUI() {
 	isSoundPlayable = true;
 	counter = 0;
 
-	backgroundTxt.loadFromFile("../assets/images/img_unovaRoutes.png");
-	startOptionTxt.loadFromFile("../assets/images/img_start1.png");
-	startOption2Txt.loadFromFile("../assets/images/img_start2.png");
-	startOption3Txt.loadFromFile("../assets/images/img_start3.png");
-	closeOptionTxt.loadFromFile("../assets/images/img_close1.png");
-	closeOption2Txt.loadFromFile("../assets/images/img_close3.png");
+	loadFiles();
+	setTexturesInSprite();
 
-	insertButtonTxt.loadFromFile("../assets/images/img_insertButton.png");
-	insertButton2Txt.loadFromFile("../assets/images/img_insertButton2.png");
-	editButtonTxt.loadFromFile("../assets/images/img_editButton.png");
-	editButton2Txt.loadFromFile("../assets/images/img_editButton2.png");
-	saveButtonTxt.loadFromFile("../assets/images/img_saveButton.png");
-	saveButton2Txt.loadFromFile("../assets/images/img_saveButton2.png");
-	goBackButtonTxt.loadFromFile("../assets/images/img_arrow.png");
-	mapBackgroundTxt.loadFromFile("../assets/images/img_mapBackground.png");
-	mapTxt.loadFromFile("../assets/images/img_unovaMap.jpg");
-	colorPaletteTxt.loadFromFile("../assets/images/img_colorPalette.png");
+	setPositionSprite();
+
+}
+
+void GUI::setPositionSprite()
+{
+	startOptionSpr.setPosition(400, 330);
+	startOption2Spr.setPosition(400, 330);
+	startOption3Spr.setPosition(403, 330);
+	closeOptionSpr.setPosition(400, 520);
+	closeOption2Spr.setPosition(400, 520);
+	insertButtonSpr.setPosition(160, 580);
+	insertButton2Spr.setPosition(160, 580);
+	editButtonSpr.setPosition(535, 580);
+	editButton2Spr.setPosition(535, 580);
+	saveButtonSpr.setPosition(1030, 425);
+	saveButton2Spr.setPosition(1030, 425);
+	goBackButtonSpr.setPosition(1, 670);
+	colorPaletteSpr.setPosition(984, 580);
+}
+
+void GUI::setTexturesInSprite()
+{
 
 	backgroundSpr.setTexture(backgroundTxt);
 	startOptionSpr.setTexture(startOptionTxt);
@@ -41,7 +48,6 @@ GUI::GUI() {
 	startOption3Spr.setTexture(startOption3Txt);
 	closeOptionSpr.setTexture(closeOptionTxt);
 	closeOption2Spr.setTexture(closeOption2Txt);
-
 	insertButtonSpr.setTexture(insertButtonTxt);
 	insertButton2Spr.setTexture(insertButton2Txt);
 	editButtonSpr.setTexture(editButtonTxt);
@@ -52,27 +58,26 @@ GUI::GUI() {
 	mapBackgroundSpr.setTexture(mapBackgroundTxt);
 	mapSpr.setTexture(mapTxt);
 	colorPaletteSpr.setTexture(colorPaletteTxt);
+}
 
-	startOptionSpr.setPosition(400, 330);
-	startOption2Spr.setPosition(400, 330);
-	startOption3Spr.setPosition(403, 330);
+void GUI::loadFiles()
+{
+	backgroundMusic.openFromFile("../assets/audio/audio_backgroundMusic.ogg");
+	buttonBuffer.loadFromFile("../assets/audio/audio_soundEffect.ogg");
+	insertButtonTxt.loadFromFile("../assets/images/img_insertButton.png");
+	insertButton2Txt.loadFromFile("../assets/images/img_insertButton2.png");
+	editButtonTxt.loadFromFile("../assets/images/img_editButton.png");
+	editButton2Txt.loadFromFile("../assets/images/img_editButton2.png");
+	saveButtonTxt.loadFromFile("../assets/images/img_saveButton.png");
+	saveButton2Txt.loadFromFile("../assets/images/img_saveButton2.png");
+	goBackButtonTxt.loadFromFile("../assets/images/img_arrow.png");
+	mapBackgroundTxt.loadFromFile("../assets/images/img_mapBackground.png");
+	mapTxt.loadFromFile("../assets/images/img_unovaMap.jpg");
+	colorPaletteTxt.loadFromFile("../assets/images/img_colorPalette.png");
+}
 
-	closeOptionSpr.setPosition(400, 520);
-	closeOption2Spr.setPosition(400, 520);
-
-	insertButtonSpr.setPosition(160, 580);
-	insertButton2Spr.setPosition(160, 580);
-
-	editButtonSpr.setPosition(535, 580);
-	editButton2Spr.setPosition(535, 580);
-
-	saveButtonSpr.setPosition(1030, 425);
-	saveButton2Spr.setPosition(1030, 425);
-
-	goBackButtonSpr.setPosition(1, 670);
-
-	colorPaletteSpr.setPosition(984, 580);
-
+void GUI::drawTouristPoint() {
+	
 }
 
 void GUI::windowDisplay() {
@@ -142,6 +147,7 @@ void GUI::mapDisplay() {
 	if (mapMode == INSERT_MODE) {
 
 		if (input.isButtonPressedInSprite(&event, &mapSpr)) {
+			//drawTouristPoint();
 			listOfRoutes.addPointToRoute(&event);
 			counter++;
 		}
