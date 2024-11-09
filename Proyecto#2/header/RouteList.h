@@ -12,4 +12,6 @@ public:
 	RouteList();
 	void addRoute();
 	void addPointToRoute(Event*);
+	List<List<TouristPoint>>* getRoutesList() { return &routesList; }
+	List<TouristPoint>* getRoute() { return route; }
 };

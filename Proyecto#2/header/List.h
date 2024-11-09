@@ -14,6 +14,7 @@ public:
 	void addNode(T* value);
 	void printNodes();
 	void removeNodesByData(T* value);
+	Node<T>* getNode();
 	bool isEmpty();
 };
 
@@ -105,6 +106,11 @@ void List<T>::removeNodesByData(T* value) {
 		cout << "No hay nada por eliminar ya que la lista esta vacia\n\n";
 	}
 
+}
+
+template<typename T>
+Node<T>* List<T>::getNode() {
+	return head;
 }
 
 template <typename T>

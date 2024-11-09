@@ -5,9 +5,10 @@ GUI::GUI() {
 	window = new RenderWindow(VideoMode(1280, 720), "UNOVA ROUTES", Style::Titlebar | Style::Close);
 	window->setFramerateLimit(30);
 
-	wayPoint.setRadius(15);
-
-	buttonSound.setBuffer(buttonBuffer);
+	wayPoint.setRadius(10);
+	wayPoint.setFillColor(Color::Blue);
+	
+	buttonSound.setBuffer(buttonBuffer);	
 
 	gameMode = MENU_MODE;
 
@@ -63,6 +64,11 @@ void GUI::setTexturesInSprite()
 void GUI::loadFiles()
 {
 	backgroundMusic.openFromFile("../assets/audio/audio_backgroundMusic.ogg");
+	backgroundTxt.loadFromFile("../assets/images/img_unovaRoutes.png");
+	startOptionTxt.loadFromFile("../assets/images/img_start1.png");
+	startOption3Txt.loadFromFile("../assets/images/img_start3.png");
+	closeOptionTxt.loadFromFile("../assets/images/img_close1.png");
+	closeOption2Txt.loadFromFile("../assets/images/img_close3.png");
 	buttonBuffer.loadFromFile("../assets/audio/audio_soundEffect.ogg");
 	insertButtonTxt.loadFromFile("../assets/images/img_insertButton.png");
 	insertButton2Txt.loadFromFile("../assets/images/img_insertButton2.png");
@@ -77,6 +83,25 @@ void GUI::loadFiles()
 }
 
 void GUI::drawTouristPoint() {
+	List<List<TouristPoint>>* allRoutesPointer = listOfRoutes.getRoutesList();
+
+	if (allRoutesPointer != nullptr) {
+		Node<List<TouristPoint>>* currentRouteNode = allRoutesPointer->getNode();
+		
+		while (currentRouteNode != nullptr) {
+			
+			Node<TouristPoint>* auxPoint = currentRouteNode->getData()->getNode();
+			
+			while (auxPoint != nullptr) {
+				wayPoint.setPosition(auxPoint->getData()->getPosX() - wayPoint.getRadius(), auxPoint->getData()->getPosY() - wayPoint.getRadius());
+				window->draw(wayPoint);
+				auxPoint = auxPoint->getNext();
+			}
+
+			currentRouteNode = currentRouteNode->getNext();
+		}
+
+	}
 	
 }
 
@@ -144,11 +169,14 @@ void GUI::mapDisplay() {
 
 	window->draw(saveButtonSpr);
 
+	drawTouristPoint();
+
 	if (mapMode == INSERT_MODE) {
 
 		if (input.isButtonPressedInSprite(&event, &mapSpr)) {
-			//drawTouristPoint();
+			
 			listOfRoutes.addPointToRoute(&event);
+			drawTouristPoint();
 			counter++;
 		}
 		if (input.isMouseInButton(&event, &saveButtonSpr)) {
