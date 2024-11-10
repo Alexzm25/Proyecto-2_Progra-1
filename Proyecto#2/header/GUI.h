@@ -2,6 +2,7 @@
 #include <SFML/Audio.hpp>
 #include "../header/InputHandler.h"
 #include "../header/RouteList.h"
+#include "../header/MathUtils.h"
 
 #define MAP_MODE 0
 #define MENU_MODE 1
@@ -55,12 +56,17 @@ private:
 	Sprite mapSpr;
 	Sprite colorPaletteSpr;
 
+	List<List<TouristPoint>>* allRoutesPointer;
+
 	CircleShape wayPoint;
 
 	bool isSoundPlayable;
 	int counter;
 	int gameMode;
 	int mapMode;
+
+	VertexArray generateSpline(const Vector2f* points, int numPoints);
+	
 public:
 	GUI();
 	void setPositionSprite();
@@ -70,4 +76,5 @@ public:
 	void menuDisplay();
 	void mapDisplay();
 	void windowDisplay();
+	void drawRoutes();
 };

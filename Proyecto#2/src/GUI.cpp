@@ -83,7 +83,7 @@ void GUI::loadFiles()
 }
 
 void GUI::drawTouristPoint() {
-	List<List<TouristPoint>>* allRoutesPointer = listOfRoutes.getRoutesList();
+	allRoutesPointer = listOfRoutes.getRoutesList();
 
 	if (allRoutesPointer != nullptr) {
 		Node<List<TouristPoint>>* currentRouteNode = allRoutesPointer->getNode();
@@ -169,6 +169,7 @@ void GUI::mapDisplay() {
 
 	window->draw(saveButtonSpr);
 
+	drawRoutes();
 	drawTouristPoint();
 
 	if (mapMode == INSERT_MODE) {
@@ -223,3 +224,64 @@ void GUI::mapDisplay() {
 	}
 }
 
+VertexArray GUI::generateSpline(const Vector2f* points, int numPoints) {
+	VertexArray curve(LineStrip);
+
+	if (numPoints < 2) return curve;
+
+	for (int i = 0; i < numPoints - 1; ++i) {
+		Vector2f p0 = points[i];
+		Vector2f p1 = points[i + 1];
+
+		// Calcula los vectores de tangente en p0 y p1
+		Vector2f m0 = (i == 0) ? MathUtils::calculateTangent(p0, points[i + 1]) :
+			MathUtils::calculateTangent(points[i - 1], points[i + 1]);
+		Vector2f m1 = (i == numPoints - 2) ? MathUtils::calculateTangent(points[i], p1) :
+			MathUtils::calculateTangent(points[i], points[i + 2]);
+
+		// Genera los puntos interpolados para el segmento entre p0 y p1
+		for (float t = 0; t < 1.0f; t += 0.05f) {
+			Vector2f interpolatedPoint = MathUtils::interpolate(p0, p1, m0, m1, t);
+			curve.append(Vertex(interpolatedPoint, Color::Blue));
+		}
+	}
+	return curve;
+}
+
+void GUI::drawRoutes() {
+	allRoutesPointer = listOfRoutes.getRoutesList();
+
+	Node<List<TouristPoint>>* currentRouteNode = allRoutesPointer->getNode();
+
+	while (currentRouteNode != nullptr) {
+		List<TouristPoint>* route = currentRouteNode->getData();
+
+		// Contar manualmente los puntos en route
+		int numPoints = 0;
+		Node<TouristPoint>* tempNode = route->getNode();
+		while (tempNode != nullptr) {
+			numPoints++;
+			tempNode = tempNode->getNext();
+		}
+
+		// Crear el arreglo de puntos
+		Vector2f* points = new Vector2f[numPoints];
+
+		// Llenar el arreglo con los puntos de TouristPoint
+		int index = 0;
+		tempNode = route->getNode();
+		while (tempNode != nullptr) {
+			points[index++] = Vector2f(tempNode->getData()->getPosX(), tempNode->getData()->getPosY());
+			tempNode = tempNode->getNext();
+		}
+
+		// Generar la línea de la ruta y dibujarla
+		VertexArray spline = generateSpline(points, numPoints);
+		window->draw(spline);
+
+		// Liberar la memoria de points
+		delete[] points;
+
+		currentRouteNode = currentRouteNode->getNext();
+	}
+}
