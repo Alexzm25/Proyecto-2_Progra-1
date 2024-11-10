@@ -130,6 +130,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\FileManager.cpp" />
     <ClCompile Include="..\src\GUI.cpp" />
     <ClCompile Include="..\src\InputHandler.cpp" />
     <ClCompile Include="..\src\main.cpp" />
@@ -138,6 +139,7 @@
     <ClCompile Include="..\src\TouristPoint.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\header\FileManager.h" />
     <ClInclude Include="..\header\GUI.h" />
     <ClInclude Include="..\header\InputHandler.h" />
     <ClInclude Include="..\header\List.h" />
