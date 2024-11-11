@@ -7,12 +7,14 @@ template <typename T>
 class List {
 private:
 	Node<T>* head;
-
+	string listName;
 public:
 	List();
 	~List();
 	void addNode(T* value);
 	void printNodes();
+	void setListName(string listName) { this->listName = listName; }
+	string getListName() { return listName; }
 	void removeNodesByData(T* value);
 	Node<T>* getNode();
 	bool isEmpty();

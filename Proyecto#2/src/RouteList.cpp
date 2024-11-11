@@ -6,8 +6,14 @@ RouteList::RouteList() {
 
 void RouteList::addRoute() {
 	route = new List<TouristPoint>;
-	routesList.addNode(route);
+	string routeName;
+	cout << "Digite el nombre de la ruta a continuacion ->\t";
+	getline(cin, routeName);
+	cout << "\n";
 
+	route->setListName(routeName);
+	routesList.addNode(route);
+	
 }
 
 void RouteList::addPointToRoute(Event* event, Color currentColor) {

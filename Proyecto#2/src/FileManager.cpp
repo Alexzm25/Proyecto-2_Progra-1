@@ -14,10 +14,11 @@ void FileManager::saveRoutes(List<List<TouristPoint>>* routesList) {
 
 			while (routeNode != nullptr) {
 
-				outFile << "<Route>\n";
-
 				List<TouristPoint>* currentRoute = routeNode->getData();
 				Node<TouristPoint>* currentPoint = currentRoute->getNode();
+
+				outFile << "<Route>\n";
+				outFile << "<RouteName>" << currentRoute->getListName() << "</RouteName>\n";
 
 				while (currentPoint != nullptr) {
 
@@ -59,7 +60,7 @@ void FileManager::loadFileToRoutes(List<List<TouristPoint>>* routesList) {
 				return;
 			}
 
-			string line, pointName;
+			string line, pointName, routeName;
 			float x, y;
 			int r, g, b;
 			List<List<TouristPoint>>* newRoutesList = nullptr;
@@ -74,13 +75,17 @@ void FileManager::loadFileToRoutes(List<List<TouristPoint>>* routesList) {
 				else if (line.find("<Route>") != string::npos) {
 					newRoute = new List<TouristPoint>;
 				}
+				else if (line.find("<RouteName>") != string::npos) {
+					size_t start = line.find("<RouteName>") + 11;
+					size_t end = line.find("</RouteName>");
+					routeName = line.substr(start, end - start);
+				}
 
 				else if (line.find("<PosX>") != string::npos) {
 					size_t start = line.find("<PosX>") + 6;
 					size_t end = line.find("</PosX>");
 
 					x = stof(line.substr(start, end - start));
-
 				}
 
 				else if (line.find("<PosY>") != string::npos) {
@@ -101,8 +106,6 @@ void FileManager::loadFileToRoutes(List<List<TouristPoint>>* routesList) {
 					r = stoi(colorLine.substr(start, end - start));
 					g = stoi(colorLine.substr(posG + 1, posB - posG - 1));
 					b = stoi(colorLine.substr(posB + 1));
-
-
 				}
 
 				else if (line.find("<PointName>") != string::npos) {
@@ -114,6 +117,7 @@ void FileManager::loadFileToRoutes(List<List<TouristPoint>>* routesList) {
 
 				else if (!pointName.empty() && newRoute != nullptr) {
 					TouristPoint* newPoint = new TouristPoint(x, y, pointName, r, g, b);
+					newRoute->setListName(routeName);
 					newRoute->addNode(newPoint);
 					pointName.clear();
 				}
