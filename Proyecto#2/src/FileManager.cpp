@@ -14,7 +14,7 @@ void FileManager::saveRoutes(List<List<TouristPoint>>* routesList) {
 
 			while (routeNode != nullptr) {
 
-				outFile << "<Route>";
+				outFile << "<Route>\n";
 
 				List<TouristPoint>* currentRoute = routeNode->getData();
 				Node<TouristPoint>* currentPoint = currentRoute->getNode();
@@ -112,17 +112,19 @@ void FileManager::loadFileToRoutes(List<List<TouristPoint>>* routesList) {
 					pointName = line.substr(start, end - start);
 				}
 
+				else if (!pointName.empty() && newRoute != nullptr) {
+					TouristPoint* newPoint = new TouristPoint(x, y, pointName, r, g, b);
+					newRoute->addNode(newPoint);
+					pointName.clear();
+				}
+
 				else if (line.find("</Route>") != string::npos) {
 					if (newRoute != nullptr) {
 						newRoutesList->addNode(newRoute);
 						newRoute = nullptr;
 					}
 				}
-				else if (!pointName.empty() && newRoute != nullptr) {
-					TouristPoint* newPoint = new TouristPoint(x, y, pointName, r, g, b);
-					newRoute->addNode(newPoint);
-					pointName.clear();
-				}
+
 				else if (line.find("</Routes>") != string::npos) {
 					if (newRoutesList != nullptr) {
 						*routesList = *newRoutesList;

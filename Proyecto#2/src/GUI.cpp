@@ -6,15 +6,18 @@ GUI::GUI() {
 	window->setFramerateLimit(30);
 
 	wayPoint.setRadius(10);
-	wayPoint.setFillColor(Color::Blue);
+	wayPoint.setFillColor(currentColor);
 	
 	buttonSound.setBuffer(buttonBuffer);	
+
+	isColorSelected=false;
 
 	gameMode = MENU_MODE;
 
 	mapMode = VIEW_MODE;
 	isSoundPlayable = true;
 	counter = 0;
+	currentColor = Color::Blue;
 
 	loadFiles();
 	setTexturesInSprite();
@@ -94,6 +97,7 @@ void GUI::drawTouristPoint() {
 			
 			while (auxPoint != nullptr) {
 				wayPoint.setPosition(auxPoint->getData()->getPosX() - wayPoint.getRadius(), auxPoint->getData()->getPosY() - wayPoint.getRadius());
+				wayPoint.setFillColor(auxPoint->getData()->getPointColor());
 				window->draw(wayPoint);
 				auxPoint = auxPoint->getNext();
 			}
@@ -174,12 +178,16 @@ void GUI::mapDisplay() {
 
 	if (mapMode == INSERT_MODE) {
 
-		if (input.isButtonPressedInSprite(&event, &mapSpr)) {
-			
-			listOfRoutes.addPointToRoute(&event);
+		colorSelection();
+	
+		if (input.isButtonPressedInSprite(&event, &mapSpr) && isColorSelected == true) {
+			listOfRoutes.addPointToRoute(&event, currentColor);
 			drawTouristPoint();
 			counter++;
+			isColorSelected = false;
 		}
+		
+		
 		if (input.isMouseInButton(&event, &saveButtonSpr)) {
 			window->draw(saveButton2Spr);
 		}
@@ -212,15 +220,29 @@ void GUI::mapDisplay() {
 		if (input.isButtonPressedInSprite(&event, &editButton2Spr)) {
 			mapMode = EDIT_MODE;
 		}
-		if (input.isButtonPressed(&event)) {
-			//CODIGO TEMPORAL, SOLO PARA VER COORDENADAS XY
-			//posX = event.mouseButton.x;
-			//posY = event.mouseButton.y;
+		//if (input.isButtonPressed(&event)) {
+		//	//CODIGO TEMPORAL, SOLO PARA VER COORDENADAS XY
+		//	int posX = event.mouseButton.x;
+		//	int posY = event.mouseButton.y;
 
-			//cout << "X: " << posX << "\n";
-			//cout << "Y: " << posY << "\n";
-			//CODIGO TEMPORAL, SOLO PARA VER COORDENADAS XY
-		}
+		//	//cout << "X: " << posX << "\n";
+		//	//cout << "Y: " << posY << "\n";
+		//	//CODIGO TEMPORAL, SOLO PARA VER COORDENADAS XY
+		//}
+	}
+}
+
+void GUI::colorSelection() {
+	if (input.isButtonPressedInSprite(&event, &colorPaletteSpr)) {
+		int posX = event.mouseButton.x;
+
+		if (posX < 1037) currentColor = Color::Red;
+		else if (posX < 1089) currentColor = Color::Yellow;
+		else if (posX < 1143) currentColor = Color::Green;
+		else if (posX < 1196) currentColor = Color::Cyan;
+		else if (posX < 1249) currentColor = Color::Magenta;
+
+		isColorSelected = true;
 	}
 }
 

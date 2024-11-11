@@ -15,7 +15,7 @@ private:
 public:
 	TouristPoint() : posX(0.0), posY(0.0), pointName(" "), pointColor(), r(0), g(0), b(0) {}
 	TouristPoint(float x, float y,  string name, int r, int g, int b):posX(x), posY(y), pointName(name), pointColor(r, g, b, 255), r(r), g(g), b(b) {}
-	TouristPoint(float x, float y, string name, Color color) :posX(x), posY(y), pointName(name), pointColor(), r(0), g(0), b(0) {}
+	TouristPoint(float x, float y, string name, Color color);
 	float getPosX() { return posX; }
 	float getPosY() { return posY; }
 	int getR() { return r; }

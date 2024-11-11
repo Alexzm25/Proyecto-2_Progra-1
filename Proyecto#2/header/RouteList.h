@@ -11,7 +11,7 @@ private:
 public:
 	RouteList();
 	void addRoute();
-	void addPointToRoute(Event*);
+	void addPointToRoute(Event*, Color);
 	List<List<TouristPoint>>* getRoutesList() { return &routesList; }
 	List<TouristPoint>* getRoute() { return route; }
 };

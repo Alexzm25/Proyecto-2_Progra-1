@@ -10,7 +10,7 @@ void RouteList::addRoute() {
 
 }
 
-void RouteList::addPointToRoute(Event* event) {
+void RouteList::addPointToRoute(Event* event, Color currentColor) {
 	TouristPoint* newPoint = nullptr;
 	string pointName;
 
@@ -20,7 +20,7 @@ void RouteList::addPointToRoute(Event* event) {
 	float posX = event->mouseButton.x;
 	float posY = event->mouseButton.y;
 
-	newPoint = new TouristPoint(posX, posY, pointName, Color::Yellow);
+	newPoint = new TouristPoint(posX, posY, pointName, currentColor);
 
 	route->addNode(newPoint);
 	route->printNodes();

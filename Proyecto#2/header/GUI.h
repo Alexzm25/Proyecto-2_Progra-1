@@ -59,8 +59,9 @@ private:
 	List<List<TouristPoint>>* allRoutesPointer;
 
 	CircleShape wayPoint;
+	Color currentColor;
 
-	bool isSoundPlayable;
+	bool isSoundPlayable, isColorSelected;
 	int counter;
 	int gameMode;
 	int mapMode;
@@ -72,6 +73,7 @@ public:
 	void setPositionSprite();
 	void setTexturesInSprite();
 	void loadFiles();
+	void colorSelection();
 	void drawTouristPoint();
 	void menuDisplay();
 	void mapDisplay();
