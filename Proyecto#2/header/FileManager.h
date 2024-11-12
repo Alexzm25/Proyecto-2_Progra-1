@@ -13,7 +13,7 @@ private:
 	string fileName;
 
 public:
-	FileManager(string fileName) : fileName(fileName){}
+	FileManager() : fileName("Save.txt"){}
 	void saveRoutes(List<List<TouristPoint>>* routesList);
 	void loadFileToRoutes(List<List<TouristPoint>>* routesList);
 };

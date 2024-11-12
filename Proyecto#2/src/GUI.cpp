@@ -174,6 +174,7 @@ void GUI::mapDisplay() {
 	window->draw(saveButtonSpr);
 
 	drawRoutes();
+	//drawLinesBetweenRoutes();
 	drawTouristPoint();
 
 	if (mapMode == INSERT_MODE) {
@@ -193,6 +194,7 @@ void GUI::mapDisplay() {
 		}
 		if (input.isButtonPressedInSprite(&event, &saveButtonSpr) && counter >= 2) { //si el counter == a 2 quiere decir que hay 2 puntos minimo
 			counter = 0;
+			filesHandler.saveRoutes(allRoutesPointer);
 			mapMode = VIEW_MODE;
 			//programar funcion para guardar los puntos en un archivo.txt
 		}
@@ -264,7 +266,7 @@ VertexArray GUI::generateSpline(const Vector2f* points, int numPoints) {
 		// Genera los puntos interpolados para el segmento entre p0 y p1
 		for (float t = 0; t < 1.0f; t += 0.05f) {
 			Vector2f interpolatedPoint = MathUtils::interpolate(p0, p1, m0, m1, t);
-			curve.append(Vertex(interpolatedPoint, Color::Blue));
+			curve.append(Vertex(interpolatedPoint, Color::Yellow));
 		}
 	}
 	return curve;
@@ -305,5 +307,61 @@ void GUI::drawRoutes() {
 		delete[] points;
 
 		currentRouteNode = currentRouteNode->getNext();
+	}
+}
+
+void GUI::drawLinesBetweenRoutes() {
+	if (allRoutesPointer == nullptr || allRoutesPointer->getNode() == nullptr || allRoutesPointer->getNode()->getData() == nullptr) return;
+
+	Node<TouristPoint>* pointList = allRoutesPointer->getNode()->getData()->getNode();
+
+	if (pointList != nullptr && pointList->getNext() != nullptr) {
+		VertexArray lines(Quads);
+
+		Node<TouristPoint>* p0 = nullptr;
+		Node<TouristPoint>* p1 = pointList;
+		Node<TouristPoint>* p2 = pointList->getNext();
+		Node<TouristPoint>* p3 = p2->getNext();
+
+		FloatRect mapSpriteBounds = mapSpr.getGlobalBounds();
+
+		// Bucle para iterar sobre los puntos y dibujar la curva entre ellos
+		while (p2 != nullptr) {
+			for (float t = 0; t <= 1; t += 0.005f) {
+				float t2 = t * t;
+				float t3 = t2 * t;
+
+				// Calcular las funciones de interpolación de Hermite
+				float h1 = 2 * t3 - 3 * t2 + 1;
+				float h2 = -2 * t3 + 3 * t2;
+				float h3 = t3 - 2 * t2 + t;
+				float h4 = t3 - t2;
+
+				// Calcular posiciones X e Y usando p0, p1, p2, p3 (si existen)
+				float x = h1 * p1->getData()->getPosX() + h2 * p2->getData()->getPosX() +
+					h3 * (p2->getData()->getPosX() - (p0 ? p0->getData()->getPosX() : p1->getData()->getPosX())) +
+					h4 * (p3 ? p3->getData()->getPosX() - p1->getData()->getPosX() : p2->getData()->getPosX() - p1->getData()->getPosX());
+
+				float y = h1 * p1->getData()->getPosY() + h2 * p2->getData()->getPosY() +
+					h3 * (p2->getData()->getPosY() - (p0 ? p0->getData()->getPosY() : p1->getData()->getPosY())) +
+					h4 * (p3 ? p3->getData()->getPosY() - p1->getData()->getPosY() : p2->getData()->getPosY() - p1->getData()->getPosY());
+
+				if (mapSpriteBounds.contains(x, y)) {
+					lines.append(Vertex(Vector2f(x - 1.2f, y - 1.2f), Color::Yellow));
+					lines.append(Vertex(Vector2f(x + 1.2f, y - 1.2f), Color::Yellow));
+					lines.append(Vertex(Vector2f(x + 1.2f, y + 1.2f), Color::Yellow));
+					lines.append(Vertex(Vector2f(x - 1.2f, y + 1.2f), Color::Yellow));
+				}
+			}
+
+			// Avanzar en los nodos
+			p0 = p1;
+			p1 = p2;
+			p2 = p3;
+			p3 = (p3 != nullptr) ? p3->getNext() : nullptr;
+		}
+
+		// Dibuja las líneas generadas en la ventana
+		window->draw(lines);
 	}
 }

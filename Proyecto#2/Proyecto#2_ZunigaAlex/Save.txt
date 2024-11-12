@@ -1,0 +1,17 @@
+<Routes>
+<Route>
+<RouteName>Ruta 10</RouteName>
+<PosX>463</PosX>
+<PosY>123</PosY>
+<Color><R>255,0,0</Color>
+<PointName>Ciudad Carmin</PointName>
+<PosX>547</PosX>
+<PosY>60</PosY>
+<Color><R>255,255,0</Color>
+<PointName>Ruta a Liga</PointName>
+<PosX>588</PosX>
+<PosY>24</PosY>
+<Color><R>0,255,255</Color>
+<PointName>Liga Pokemon</PointName>
+</Route>
+</Routes>

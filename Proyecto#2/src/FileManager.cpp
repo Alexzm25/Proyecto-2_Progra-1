@@ -24,7 +24,7 @@ void FileManager::saveRoutes(List<List<TouristPoint>>* routesList) {
 
 					outFile << "<PosX>" << currentPoint->getData()->getPosX() << "</PosX>\n";
 					outFile << "<PosY>" << currentPoint->getData()->getPosY() << "</PosY>\n";
-					outFile << "<Color>"<<"<R>" << currentPoint->getData()->getR() << ","
+					outFile << "<Color>"<< currentPoint->getData()->getR() << ","
 						<< currentPoint->getData()->getG() << ","
 						<< currentPoint->getData()->getB() << "</Color>\n";
 					outFile << "<PointName>" << currentPoint->getData()->getPointName() << "</PointName>\n";

@@ -1,8 +1,10 @@
+#pragma once
 #include <SFML/System.hpp>
 #include <SFML/Audio.hpp>
 #include "../header/InputHandler.h"
 #include "../header/RouteList.h"
 #include "../header/MathUtils.h"
+#include "../header/FileManager.h"
 
 #define MAP_MODE 0
 #define MENU_MODE 1
@@ -57,6 +59,7 @@ private:
 	Sprite colorPaletteSpr;
 
 	List<List<TouristPoint>>* allRoutesPointer;
+	FileManager filesHandler;
 
 	CircleShape wayPoint;
 	Color currentColor;
@@ -79,4 +82,5 @@ public:
 	void mapDisplay();
 	void windowDisplay();
 	void drawRoutes();
+	void drawLinesBetweenRoutes();
 };
