@@ -3,6 +3,6 @@
 using namespace std;
 
 int main() {
-	GUI test;
-	test.windowDisplay();
+	GUI interface;
+	interface.windowDisplay();
 }

@@ -14,6 +14,7 @@ public:
 	void addRoute();
 	void addPointToRoute(Event*, Color);
 	void deleteTouristPointByClick(Event*, InputHandler*);
+	void changeTouristPointColor(Event*, InputHandler* ,Color);
 	List<List<TouristPoint>>* getRoutesList() { return &routesList; }
 	List<TouristPoint>* getRoute() { return route; }
 };

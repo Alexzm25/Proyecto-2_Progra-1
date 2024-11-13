@@ -32,6 +32,38 @@ void RouteList::addPointToRoute(Event* event, Color currentColor) {
 	route->printNodes();
 }
 
+void RouteList::changeTouristPointColor(Event* event, InputHandler* input, Color colorToChange) {
+
+	if (input->isButtonPressed(event)) {
+
+		float posX = event->mouseButton.x;
+		float posY = event->mouseButton.y;
+		float radius = 10;
+
+		Node<List<TouristPoint>>* currentRouteNode = routesList.getNode();
+
+		while (currentRouteNode != nullptr) {
+
+			Node<TouristPoint>* currentPointNode = currentRouteNode->getData()->getNode();
+
+			while (currentPointNode != nullptr) {
+
+				float pointX = currentPointNode->getData()->getPosX();
+				float pointY = currentPointNode->getData()->getPosY();
+
+				if (sqrt(pow(pointX - posX, 2) + pow(pointY - posY, 2)) <= radius) {
+
+					currentPointNode->getData()->setPointColor(colorToChange);
+				}
+				currentPointNode = currentPointNode->getNext();
+			}
+
+			currentRouteNode = currentRouteNode->getNext();
+		}
+
+	}
+}
+
 void RouteList::deleteTouristPointByClick(Event* event, InputHandler* input) {
 
 	if (input->isButtonPressed(event)) {

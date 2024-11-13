@@ -6,12 +6,19 @@ TouristPoint::TouristPoint(float x, float y, string name, Color color) {
 	posY = y;
 	pointName = name;
 	pointColor = color;
-	r = color.r;
-	g = color.g;
-	b = color.b;
-
+	
+	setRGB();
 }
+void TouristPoint::setRGB() {
+	r = pointColor.r;
+	g = pointColor.g;
+	b = pointColor.b;
+}
+void TouristPoint::setPointColor(Color pointColor) { 
+	this->pointColor = pointColor; 
 
+	setRGB();
+}
 ostream& operator<<(ostream& os, const TouristPoint& point) {
 
 	os <<point.pointName <<" Coordenada X: " << point.posX << " Coordenada Y: " << point.posY;

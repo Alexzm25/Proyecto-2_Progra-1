@@ -224,10 +224,17 @@ void GUI::viewMode()
 
 void GUI::editMode()
 {
-	listOfRoutes.deleteTouristPointByClick(&event, &input);
+	colorSelection();
+
+	if (isColorSelected) {
+		listOfRoutes.changeTouristPointColor(&event, &input, currentColor);
+	}
+	else listOfRoutes.deleteTouristPointByClick(&event, &input);
 
 	if (input.isMouseInButton(&event, &saveButtonSpr)) window->draw(saveButton2Spr);
+
 	if (input.isButtonPressedInSprite(&event, &saveButtonSpr)) {
+		allRoutesPointer = listOfRoutes.getRoutesList();
 		filesHandler.saveRoutes(allRoutesPointer);
 		mapMode = VIEW_MODE;
 	}
