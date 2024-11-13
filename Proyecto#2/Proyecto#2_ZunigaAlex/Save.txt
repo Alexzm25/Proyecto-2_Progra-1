@@ -1,0 +1,51 @@
+<Routes>
+<Route>
+<RouteName>Ruta 10</RouteName>
+<PosX>498</PosX>
+<PosY>437</PosY>
+<Color>0,255,0</Color>
+<PointName>Ciudad Castelia</PointName>
+<PosX>495</PosX>
+<PosY>297</PosY>
+<Color>255,255,0</Color>
+<PointName>Ciudad Mayolica</PointName>
+<PosX>111</PosX>
+<PosY>196</PosY>
+<Color>255,0,0</Color>
+<PointName>Ciudad Loza</PointName>
+<PosX>470</PosX>
+<PosY>114</PosY>
+<Color>255,0,255</Color>
+<PointName>Ciudad Caolin</PointName>
+</Route>
+<Route>
+<RouteName>Ruta 3</RouteName>
+<PosX>812</PosX>
+<PosY>216</PosY>
+<Color>255,0,0</Color>
+<PointName>Pueblo Arenisca</PointName>
+<PosX>751</PosX>
+<PosY>116</PosY>
+<Color>0,255,0</Color>
+<PointName>Pueblo Ladrillo</PointName>
+<PosX>486</PosX>
+<PosY>224</PosY>
+<Color>0,255,0</Color>
+<PointName>Zona Nexo</PointName>
+</Route>
+<Route>
+<RouteName>Ruta 7</RouteName>
+<PosX>799</PosX>
+<PosY>390</PosY>
+<Color>255,255,0</Color>
+<PointName>Bosque</PointName>
+<PosX>587</PosX>
+<PosY>44</PosY>
+<Color>0,255,255</Color>
+<PointName>Liga</PointName>
+<PosX>68</PosX>
+<PosY>76</PosY>
+<Color>255,0,255</Color>
+<PointName>Pueblo 2</PointName>
+</Route>
+</Routes>

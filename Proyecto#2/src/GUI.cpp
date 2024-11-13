@@ -95,6 +95,16 @@ void GUI::loadFiles()
 	font.loadFromFile("../assets/font/Roboto-Medium.ttf");
 }
 
+void GUI::checkIsMouseInButton(Sprite* button, Sprite button2) {
+
+	if (input.isMouseInButton(&event, button)) {
+		if (isSoundPlayable) buttonSound.play();
+		sleep(milliseconds(100));
+		window->draw(button2);
+		isSoundPlayable = false;
+	}
+}
+
 void GUI::drawTouristPoint() {
 	allRoutesPointer = listOfRoutes.getRoutesList();
 
@@ -119,7 +129,7 @@ void GUI::drawTouristPoint() {
 void GUI::windowDisplay() {
 
 	backgroundMusic.setLoop(true);
-	backgroundMusic.setVolume(7);
+	backgroundMusic.setVolume(10);
 	backgroundMusic.play();
 	
 	while (window->isOpen()) {
@@ -148,20 +158,8 @@ void GUI::menuDisplay() {
 	window->draw(startOptionSpr);
 	window->draw(closeOptionSpr);
 
-	if (input.isMouseInButton(&event, &startOptionSpr)) {
-		if (isSoundPlayable) buttonSound.play();
-		sleep(milliseconds(100));
-		window->draw(startOption3Spr);
-		isSoundPlayable = false;
-	}
-
-	if (input.isMouseInButton(&event, &closeOptionSpr)) {
-		if (isSoundPlayable) buttonSound.play();
-		sleep(milliseconds(100));
-		window->draw(closeOption2Spr);
-		isSoundPlayable = false;
-
-	}
+	checkIsMouseInButton(&startOptionSpr, startOption3Spr);
+	checkIsMouseInButton(&closeOptionSpr, closeOption2Spr);
 
 	if (input.isButtonPressedInSprite(&event, &startOption3Spr)) {
 		gameMode = MAP_MODE;
@@ -201,20 +199,26 @@ void GUI::viewMode()
 	window->draw(insertButtonSpr);
 	window->draw(editButtonSpr);
 
+	if (!input.isMouseInButton(&event, &loadButtonSpr) && !input.isMouseInButton(&event, &insertButtonSpr)
+		&& !input.isMouseInButton(&event, &editButtonSpr)) {
+		isSoundPlayable = true;
+	}
+
 	if (input.isButtonPressedInSprite(&event, &goBackButtonSpr)) gameMode = 1;
 
-	if (input.isMouseInButton(&event, &insertButtonSpr)) window->draw(insertButton2Spr);
+	checkIsMouseInButton(&insertButtonSpr, insertButton2Spr);
 
 	if (input.isButtonPressedInSprite(&event, &insertButtonSpr)) {
 		mapMode = INSERT_MODE;
 		listOfRoutes.addRoute();
 		counterRoutes++;
 	}
-	if (input.isMouseInButton(&event, &editButtonSpr)) window->draw(editButton2Spr);
+
+	checkIsMouseInButton(&editButtonSpr, editButton2Spr);
 
 	if (input.isButtonPressedInSprite(&event, &editButton2Spr) && allRoutesPointer != nullptr) mapMode = EDIT_MODE;
 
-	if (input.isMouseInButton(&event, &loadButtonSpr)) window->draw(loadButton2Spr);
+	checkIsMouseInButton(&loadButtonSpr, loadButton2Spr);
 
 	if (input.isButtonPressedInSprite(&event, &loadButtonSpr)) {
 		allRoutesPointer = listOfRoutes.getRoutesList();
@@ -224,6 +228,10 @@ void GUI::viewMode()
 
 void GUI::editMode()
 {
+	if (!input.isMouseInButton(&event, &saveButtonSpr)) {
+		isSoundPlayable = true;
+	}
+
 	colorSelection();
 
 	if (isColorSelected) {
@@ -231,7 +239,7 @@ void GUI::editMode()
 	}
 	else listOfRoutes.deleteTouristPointByClick(&event, &input);
 
-	if (input.isMouseInButton(&event, &saveButtonSpr)) window->draw(saveButton2Spr);
+	checkIsMouseInButton(&saveButtonSpr, saveButton2Spr);
 
 	if (input.isButtonPressedInSprite(&event, &saveButtonSpr)) {
 		allRoutesPointer = listOfRoutes.getRoutesList();
@@ -243,6 +251,9 @@ void GUI::editMode()
 
 void GUI::insertMode()
 {
+	if (!input.isMouseInButton(&event, &saveButtonSpr)) {
+		isSoundPlayable = true;
+	}
 
 	colorSelection();
 
@@ -252,13 +263,15 @@ void GUI::insertMode()
 		counterPoints++;
 		isColorSelected = false;
 	}
-	if (input.isMouseInButton(&event, &saveButtonSpr)) {
-		window->draw(saveButton2Spr);
-	}
-	if (input.isButtonPressedInSprite(&event, &saveButtonSpr) && counterPoints >= 2) { //si el counter == a 2 quiere decir que hay 2 puntos minimo
-		counterPoints = 0;
-		filesHandler.saveRoutes(allRoutesPointer);
-		mapMode = VIEW_MODE;
+	if (counterPoints >= 2) {  //si el counter == a 2 quiere decir que hay 2 puntos minimo y ya es valido guardar una ruta
+
+		checkIsMouseInButton(&saveButtonSpr, saveButton2Spr); 
+
+		if (input.isButtonPressedInSprite(&event, &saveButtonSpr)) {
+			counterPoints = 0;
+			filesHandler.saveRoutes(allRoutesPointer);
+			mapMode = VIEW_MODE;
+		}
 	}
 }
 
@@ -323,7 +336,7 @@ void GUI::drawLinesBetweenRoutes() {
 
 	Node<List<TouristPoint>>* currentRouteNode = allRoutesPointer->getNode();
 
-	while (currentRouteNode != nullptr) {  // Iterar sobre cada ruta
+	while (currentRouteNode != nullptr) {  
 		Node<TouristPoint>* pointList = currentRouteNode->getData()->getNode();
 		
 		if (pointList != nullptr && pointList->getNext() != nullptr) {
@@ -364,16 +377,13 @@ void GUI::drawLinesBetweenRoutes() {
 						lines.append(Vertex(Vector2f(x - 1.2f, y + 1.2f), lineColor));
 					}
 				}
-				// Avanzar en los nodos
 				p0 = p1;
 				p1 = p2;
 				p2 = p3;
 				p3 = (p3 != nullptr) ? p3->getNext() : nullptr;
 			}
-			// Dibuja las líneas generadas en la ventana
 			window->draw(lines);
 		}
-		// Avanzar a la siguiente ruta en allRoutesPointer
 		currentRouteNode = currentRouteNode->getNext();
 	}
 }

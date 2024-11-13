@@ -1,2 +1,6 @@
-﻿  main.cpp
+﻿  GUI.cpp
+C:\Users\Al3xz\Documents\GitHub\Proyecto-2_Progra-1\Proyecto(296,30): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Al3xz\Documents\GitHub\Proyecto-2_Progra-1\Proyecto(303,31): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  main.cpp
+  Generating Code...
   Proyecto#2_ZunigaAlex.vcxproj -> C:\Users\Al3xz\Documents\GitHub\Proyecto-2_Progra-1\Proyecto#2\Proyecto#2_ZunigaAlex\x64\Debug\Proyecto#2_ZunigaAlex.exe

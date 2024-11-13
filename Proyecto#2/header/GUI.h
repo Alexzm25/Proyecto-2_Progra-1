@@ -24,11 +24,11 @@ private:
 	List<List<TouristPoint>>* allRoutesPointer;
 
 	Texture backgroundTxt, startOptionTxt, startOption2Txt, startOption3Txt, closeOptionTxt, closeOption2Txt, mapBackgroundTxt,
-		insertButtonTxt, insertButton2Txt ,editButtonTxt, editButton2Txt, saveButtonTxt, saveButton2Txt, loadButtonTxt,
+		insertButtonTxt, insertButton2Txt, editButtonTxt, editButton2Txt, saveButtonTxt, saveButton2Txt, loadButtonTxt,
 		loadButton2Txt, goBackButtonTxt, mapTxt, colorPaletteTxt;
 
 	Sprite backgroundSpr, startOptionSpr, startOption2Spr, startOption3Spr, closeOptionSpr, closeOption2Spr, insertButtonSpr,
-		insertButton2Spr, editButtonSpr, editButton2Spr, saveButtonSpr, saveButton2Spr, loadButtonSpr, loadButton2Spr, 
+		insertButton2Spr, editButtonSpr, editButton2Spr, saveButtonSpr, saveButton2Spr, loadButtonSpr, loadButton2Spr,
 		goBackButtonSpr, mapBackgroundSpr, mapSpr, colorPaletteSpr;
 
 	CircleShape wayPoint;
@@ -38,7 +38,7 @@ private:
 
 	bool isSoundPlayable, isColorSelected;
 	int counterPoints, counterRoutes, gameMode, mapMode;
-	
+
 public:
 	GUI();
 	void setPositionSprite();
@@ -55,4 +55,5 @@ public:
 	void drawTouristPointNames();
 	void drawLinesBetweenRoutes();
 	void drawRoutesNamesInScreen();
+	void checkIsMouseInButton(Sprite*, Sprite);
 };
