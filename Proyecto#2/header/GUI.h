@@ -36,6 +36,8 @@ private:
 	Texture editButton2Txt;
 	Texture saveButtonTxt;
 	Texture saveButton2Txt;
+	Texture loadButtonTxt;
+	Texture loadButton2Txt;
 	Texture goBackButtonTxt;
 	Texture mapTxt;
 	Texture colorPaletteTxt;
@@ -53,6 +55,8 @@ private:
 	Sprite editButton2Spr;
 	Sprite saveButtonSpr;
 	Sprite saveButton2Spr;
+	Sprite loadButtonSpr;
+	Sprite loadButton2Spr;
 	Sprite goBackButtonSpr;
 	Sprite mapBackgroundSpr;
 	Sprite mapSpr;
@@ -65,7 +69,7 @@ private:
 	Color currentColor;
 	RectangleShape boxTitle;
 	Font font;
-	Text text;
+	Text textTitles, textPoints;
 
 	bool isSoundPlayable, isColorSelected;
 	int counterPoints, counterRoutes;
@@ -85,6 +89,7 @@ public:
 	void mapDisplay();
 	void windowDisplay();
 	void drawRoutes();
+	void drawTouristPointNames();
 	void drawLinesBetweenRoutes();
 	void drawRoutesNamesInScreen();
 };

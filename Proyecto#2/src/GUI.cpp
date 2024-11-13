@@ -26,11 +26,11 @@ GUI::GUI() {
 	
 	boxTitle.setFillColor(Color::Transparent);
 	boxTitle.setScale(200, 200);
-	text.setFont(font);
-	text.setCharacterSize(10);
-	text.setFillColor(Color::White);
-	allRoutesPointer = listOfRoutes.getRoutesList();
-	filesHandler.loadFileToRoutes(allRoutesPointer);
+	textTitles.setFont(font);
+	textPoints.setFont(font);
+	textTitles.setFillColor(Color::White);
+	//allRoutesPointer = listOfRoutes.getRoutesList();
+	//filesHandler.loadFileToRoutes(allRoutesPointer);
 }
 
 void GUI::setPositionSprite()
@@ -181,10 +181,10 @@ void GUI::mapDisplay() {
 
 	window->draw(saveButtonSpr);
 
-	//drawRoutes();
 	drawLinesBetweenRoutes();
 	drawTouristPoint();
 	drawRoutesNamesInScreen();
+	drawTouristPointNames();
 
 	if (mapMode == INSERT_MODE) {
 
@@ -322,19 +322,45 @@ void GUI::drawRoutes() {
 void GUI::drawRoutesNamesInScreen() {
 	int posY = 29;
 	
-	text.setCharacterSize(20);
-	text.setPosition(988, posY);
+	textTitles.setCharacterSize(20);
+	textTitles.setPosition(988, posY);
 	
 	Node<List<TouristPoint>>* currentRouteNode = allRoutesPointer->getNode();
 
 	while (currentRouteNode != nullptr && counterRoutes <= 4) {
 
-		text.setString(currentRouteNode->getData()->getListName());
-		text.setPosition(988, posY);
+		textTitles.setString(currentRouteNode->getData()->getListName());
+		textTitles.setPosition(988, posY);
 
 		currentRouteNode = currentRouteNode->getNext();
 		posY += 26;
-		window->draw(text);
+		window->draw(textTitles);
+	}
+
+
+}
+void GUI::drawTouristPointNames() {
+
+	textPoints.setCharacterSize(14);
+	textPoints.setFillColor(Color::White);
+	Node<List<TouristPoint>>* currentRouteNode = allRoutesPointer->getNode();
+
+	while (currentRouteNode != nullptr) {
+
+		Node<TouristPoint>* currentPointNode = currentRouteNode->getData()->getNode();
+
+		while (currentPointNode != nullptr) {
+			textPoints.setString(currentPointNode->getData()->getPointName());
+			float x = currentPointNode->getData()->getPosX() + 14;
+			float y = currentPointNode->getData()->getPosY() - 24;
+			textPoints.setPosition(x, y);
+			window->draw(textPoints);
+
+			currentPointNode = currentPointNode->getNext();
+		}
+
+		currentRouteNode = currentRouteNode->getNext();
+		
 	}
 
 
@@ -359,7 +385,7 @@ void GUI::drawLinesBetweenRoutes() {
 
 			// Bucle para iterar sobre los puntos y dibujar la curva entre ellos
 			while (p2 != nullptr) {
-				for (float t = 0; t <= 1; t += 0.005f) {
+				for (float t = 0; t <= 1; t += 0.002f) {
 					float t2 = t * t;
 					float t3 = t2 * t;
 

@@ -1,28 +1,29 @@
 <Routes>
 <Route>
 <RouteName>Ruta 10</RouteName>
-<PosX>475</PosX>
-<PosY>448</PosY>
+<PosX>482</PosX>
+<PosY>292</PosY>
 <Color>255,0,0</Color>
-<PointName>Ciudad Castelia</PointName>
-<PosX>485</PosX>
-<PosY>208</PosY>
+<PointName>Ciudad Mayolica</PointName>
+<PosX>278</PosX>
+<PosY>290</PosY>
 <Color>255,0,0</Color>
-<PointName>Zona Nexo</PointName>
-<PosX>616</PosX>
-<PosY>275</PosY>
-<Color>255,0,0</Color>
-<PointName>Puente</PointName>
-</Route>
-<Route>
-<RouteName>Ruta 5'</RouteName>
-<PosX>270</PosX>
-<PosY>444</PosY>
-<Color>255,255,0</Color>
-<PointName>Isla 1</PointName>
-<PosX>132</PosX>
-<PosY>368</PosY>
+<PointName>Ciudad Fayenza</PointName>
+<PosX>105</PosX>
+<PosY>182</PosY>
+<Color>0,255,255</Color>
+<PointName>Ciudad Loza</PointName>
+<PosX>465</PosX>
+<PosY>124</PosY>
+<Color>255,0,255</Color>
+<PointName>Ciudad Caolin</PointName>
+<PosX>765</PosX>
+<PosY>124</PosY>
 <Color>0,255,0</Color>
-<PointName>Cueva</PointName>
+<PointName>Pueblo Ladrillo</PointName>
+<PosX>815</PosX>
+<PosY>216</PosY>
+<Color>255,255,0</Color>
+<PointName>Pueblo Arenisca</PointName>
 </Route>
 </Routes>
