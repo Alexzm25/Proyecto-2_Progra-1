@@ -63,12 +63,15 @@ private:
 
 	CircleShape wayPoint;
 	Color currentColor;
+	RectangleShape boxTitle;
+	Font font;
+	Text text;
 
 	bool isSoundPlayable, isColorSelected;
-	int counter;
+	int counterPoints, counterRoutes;
 	int gameMode;
 	int mapMode;
-
+	
 	VertexArray generateSpline(const Vector2f* points, int numPoints);
 	
 public:
@@ -83,4 +86,5 @@ public:
 	void windowDisplay();
 	void drawRoutes();
 	void drawLinesBetweenRoutes();
+	void drawRoutesNamesInScreen();
 };

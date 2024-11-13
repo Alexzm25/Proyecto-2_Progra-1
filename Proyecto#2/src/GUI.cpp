@@ -16,14 +16,20 @@ GUI::GUI() {
 
 	mapMode = VIEW_MODE;
 	isSoundPlayable = true;
-	counter = 0;
+	counterPoints = 0;
+	counterRoutes = 0;
 	currentColor = Color::Blue;
 
 	loadFiles();
 	setTexturesInSprite();
-
 	setPositionSprite();
-
+	
+	boxTitle.setFillColor(Color::Transparent);
+	boxTitle.setScale(200, 200);
+	text.setFont(font);
+	text.setCharacterSize(10);
+	text.setFillColor(Color::White);
+	//filesHandler.loadFileToRoutes(allRoutesPointer);
 }
 
 void GUI::setPositionSprite()
@@ -83,6 +89,7 @@ void GUI::loadFiles()
 	mapBackgroundTxt.loadFromFile("../assets/images/img_mapBackground.png");
 	mapTxt.loadFromFile("../assets/images/img_unovaMap.jpg");
 	colorPaletteTxt.loadFromFile("../assets/images/img_colorPalette.png");
+	font.loadFromFile("../assets/font/Roboto-Medium.ttf");
 }
 
 void GUI::drawTouristPoint() {
@@ -176,6 +183,7 @@ void GUI::mapDisplay() {
 	//drawRoutes();
 	drawLinesBetweenRoutes();
 	drawTouristPoint();
+	drawRoutesNamesInScreen();
 
 	if (mapMode == INSERT_MODE) {
 
@@ -184,17 +192,17 @@ void GUI::mapDisplay() {
 		if (input.isButtonPressedInSprite(&event, &mapSpr) && isColorSelected == true) {
 			listOfRoutes.addPointToRoute(&event, currentColor);
 			drawTouristPoint();
-			counter++;
+			counterPoints++;
 			isColorSelected = false;
 		}
 		if (input.isMouseInButton(&event, &saveButtonSpr)) {
 			window->draw(saveButton2Spr);
 		}
-		if (input.isButtonPressedInSprite(&event, &saveButtonSpr) && counter >= 2) { //si el counter == a 2 quiere decir que hay 2 puntos minimo
-			counter = 0;
+		if (input.isButtonPressedInSprite(&event, &saveButtonSpr) && counterPoints >= 2) { //si el counter == a 2 quiere decir que hay 2 puntos minimo
+			counterPoints = 0;
 			filesHandler.saveRoutes(allRoutesPointer);
 			mapMode = VIEW_MODE;
-			//programar funcion para guardar los puntos en un archivo.txt
+			
 		}
 	}
 	else if (mapMode == EDIT_MODE) {
@@ -215,6 +223,7 @@ void GUI::mapDisplay() {
 		if (input.isButtonPressedInSprite(&event, &insertButtonSpr)) {
 			mapMode = INSERT_MODE;
 			listOfRoutes.addRoute();
+			counterRoutes++;
 		}
 		if (input.isMouseInButton(&event, &editButtonSpr)) {
 			window->draw(editButton2Spr);
@@ -222,15 +231,15 @@ void GUI::mapDisplay() {
 		if (input.isButtonPressedInSprite(&event, &editButton2Spr) && allRoutesPointer != nullptr) {
 			mapMode = EDIT_MODE;
 		}
-		//if (input.isButtonPressed(&event)) {
-		//	//CODIGO TEMPORAL, SOLO PARA VER COORDENADAS XY
-		//	int posX = event.mouseButton.x;
-		//	int posY = event.mouseButton.y;
+		if (input.isButtonPressed(&event)) {
+			//CODIGO TEMPORAL, SOLO PARA VER COORDENADAS XY
+			int posX = event.mouseButton.x;
+			int posY = event.mouseButton.y;
 
-		//	//cout << "X: " << posX << "\n";
-		//	//cout << "Y: " << posY << "\n";
-		//	//CODIGO TEMPORAL, SOLO PARA VER COORDENADAS XY
-		//}
+			cout << "X: " << posX << "\n";
+			cout << "Y: " << posY << "\n";
+			//CODIGO TEMPORAL, SOLO PARA VER COORDENADAS XY
+		}
 	}
 }
 
@@ -309,59 +318,85 @@ void GUI::drawRoutes() {
 		currentRouteNode = currentRouteNode->getNext();
 	}
 }
+void GUI::drawRoutesNamesInScreen() {
+	int posY = 29;
+	
+	text.setCharacterSize(20);
+	text.setPosition(988, posY);
+	
+	Node<List<TouristPoint>>* currentRouteNode = allRoutesPointer->getNode();
 
+	while (currentRouteNode != nullptr && counterRoutes <= 4) {
+
+		text.setString(currentRouteNode->getData()->getListName());
+		text.setPosition(988, posY);
+
+		currentRouteNode = currentRouteNode->getNext();
+		posY += 26;
+		window->draw(text);
+	}
+
+
+}
 void GUI::drawLinesBetweenRoutes() {
-	if (allRoutesPointer == nullptr || allRoutesPointer->getNode() == nullptr || allRoutesPointer->getNode()->getData() == nullptr) return;
+	if (allRoutesPointer == nullptr || allRoutesPointer->getNode() == nullptr) return;
 
-	Node<TouristPoint>* pointList = allRoutesPointer->getNode()->getData()->getNode();
+	Node<List<TouristPoint>>* currentRouteNode = allRoutesPointer->getNode();
 
-	if (pointList != nullptr && pointList->getNext() != nullptr) {
-		VertexArray lines(Quads);
+	while (currentRouteNode != nullptr) {  // Iterar sobre cada ruta
+		Node<TouristPoint>* pointList = currentRouteNode->getData()->getNode();
 
-		Node<TouristPoint>* p0 = nullptr;
-		Node<TouristPoint>* p1 = pointList;
-		Node<TouristPoint>* p2 = pointList->getNext();
-		Node<TouristPoint>* p3 = p2->getNext();
+		if (pointList != nullptr && pointList->getNext() != nullptr) {
+			VertexArray lines(Quads);
 
-		FloatRect mapSpriteBounds = mapSpr.getGlobalBounds();
+			Node<TouristPoint>* p0 = nullptr;
+			Node<TouristPoint>* p1 = pointList;
+			Node<TouristPoint>* p2 = pointList->getNext();
+			Node<TouristPoint>* p3 = p2->getNext();
 
-		// Bucle para iterar sobre los puntos y dibujar la curva entre ellos
-		while (p2 != nullptr) {
-			for (float t = 0; t <= 1; t += 0.005f) {
-				float t2 = t * t;
-				float t3 = t2 * t;
+			FloatRect mapSpriteBounds = mapSpr.getGlobalBounds();
 
-				// Calcular las funciones de interpolación de Hermite
-				float h1 = 2 * t3 - 3 * t2 + 1;
-				float h2 = -2 * t3 + 3 * t2;
-				float h3 = t3 - 2 * t2 + t;
-				float h4 = t3 - t2;
+			// Bucle para iterar sobre los puntos y dibujar la curva entre ellos
+			while (p2 != nullptr) {
+				for (float t = 0; t <= 1; t += 0.005f) {
+					float t2 = t * t;
+					float t3 = t2 * t;
 
-				// Calcular posiciones X e Y usando p0, p1, p2, p3 (si existen)
-				float x = h1 * p1->getData()->getPosX() + h2 * p2->getData()->getPosX() +
-					h3 * (p2->getData()->getPosX() - (p0 ? p0->getData()->getPosX() : p1->getData()->getPosX())) +
-					h4 * (p3 ? p3->getData()->getPosX() - p1->getData()->getPosX() : p2->getData()->getPosX() - p1->getData()->getPosX());
+					// Calcular las funciones de interpolación de Hermite
+					float h1 = 2 * t3 - 3 * t2 + 1;
+					float h2 = -2 * t3 + 3 * t2;
+					float h3 = t3 - 2 * t2 + t;
+					float h4 = t3 - t2;
 
-				float y = h1 * p1->getData()->getPosY() + h2 * p2->getData()->getPosY() +
-					h3 * (p2->getData()->getPosY() - (p0 ? p0->getData()->getPosY() : p1->getData()->getPosY())) +
-					h4 * (p3 ? p3->getData()->getPosY() - p1->getData()->getPosY() : p2->getData()->getPosY() - p1->getData()->getPosY());
+					// Calcular posiciones X e Y usando p0, p1, p2, p3 (si existen)
+					float x = h1 * p1->getData()->getPosX() + h2 * p2->getData()->getPosX() +
+						h3 * (p2->getData()->getPosX() - (p0 ? p0->getData()->getPosX() : p1->getData()->getPosX())) +
+						h4 * (p3 ? p3->getData()->getPosX() - p1->getData()->getPosX() : p2->getData()->getPosX() - p1->getData()->getPosX());
 
-				if (mapSpriteBounds.contains(x, y)) {
-					lines.append(Vertex(Vector2f(x - 1.2f, y - 1.2f), Color::Yellow));
-					lines.append(Vertex(Vector2f(x + 1.2f, y - 1.2f), Color::Yellow));
-					lines.append(Vertex(Vector2f(x + 1.2f, y + 1.2f), Color::Yellow));
-					lines.append(Vertex(Vector2f(x - 1.2f, y + 1.2f), Color::Yellow));
+					float y = h1 * p1->getData()->getPosY() + h2 * p2->getData()->getPosY() +
+						h3 * (p2->getData()->getPosY() - (p0 ? p0->getData()->getPosY() : p1->getData()->getPosY())) +
+						h4 * (p3 ? p3->getData()->getPosY() - p1->getData()->getPosY() : p2->getData()->getPosY() - p1->getData()->getPosY());
+
+					if (mapSpriteBounds.contains(x, y)) {
+						lines.append(Vertex(Vector2f(x - 1.2f, y - 1.2f), Color::Yellow));
+						lines.append(Vertex(Vector2f(x + 1.2f, y - 1.2f), Color::Yellow));
+						lines.append(Vertex(Vector2f(x + 1.2f, y + 1.2f), Color::Yellow));
+						lines.append(Vertex(Vector2f(x - 1.2f, y + 1.2f), Color::Yellow));
+					}
 				}
+
+				// Avanzar en los nodos
+				p0 = p1;
+				p1 = p2;
+				p2 = p3;
+				p3 = (p3 != nullptr) ? p3->getNext() : nullptr;
 			}
 
-			// Avanzar en los nodos
-			p0 = p1;
-			p1 = p2;
-			p2 = p3;
-			p3 = (p3 != nullptr) ? p3->getNext() : nullptr;
+			// Dibuja las líneas generadas en la ventana
+			window->draw(lines);
 		}
 
-		// Dibuja las líneas generadas en la ventana
-		window->draw(lines);
+		// Avanzar a la siguiente ruta en allRoutesPointer
+		currentRouteNode = currentRouteNode->getNext();
 	}
 }
