@@ -31,3 +31,49 @@ void RouteList::addPointToRoute(Event* event, Color currentColor) {
 	route->addNode(newPoint);
 	route->printNodes();
 }
+
+void RouteList::deleteTouristPointByClick(Event* event, InputHandler* input) {
+
+	if (input->isButtonPressed(event)) {
+
+		float posX = event->mouseButton.x;
+		float posY = event->mouseButton.y;
+		float radius = 10;
+
+		Node<List<TouristPoint>>* currentRouteNode = routesList.getNode();
+
+		while (currentRouteNode != nullptr) {
+
+			Node<TouristPoint>* currentPointNode = currentRouteNode->getData()->getNode();
+
+			while (currentPointNode != nullptr) {
+
+				float pointX = currentPointNode->getData()->getPosX();
+				float pointY = currentPointNode->getData()->getPosY();
+
+				if (sqrt(pow(pointX - posX, 2) + pow(pointY - posY, 2)) <= radius) {
+
+					Node<TouristPoint>* nextNode = currentPointNode->getNext();
+					Node<TouristPoint>* previousNode = currentPointNode->getPrevious();
+
+					if (previousNode != nullptr) {
+						previousNode->setNext(nextNode);
+					}
+					else {
+						currentRouteNode->getData()->setHead(nextNode);
+					}
+					if (nextNode != nullptr); {
+						nextNode->setPrevious(previousNode);
+					}
+
+					delete currentPointNode;
+					return;
+				}
+				currentPointNode = currentPointNode->getNext();
+			}
+
+			currentRouteNode = currentRouteNode->getNext();
+		}
+
+	}
+}

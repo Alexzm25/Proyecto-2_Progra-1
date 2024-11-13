@@ -173,8 +173,8 @@ void GUI::mapDisplay() {
 
 	window->draw(saveButtonSpr);
 
-	drawRoutes();
-	//drawLinesBetweenRoutes();
+	//drawRoutes();
+	drawLinesBetweenRoutes();
 	drawTouristPoint();
 
 	if (mapMode == INSERT_MODE) {
@@ -187,8 +187,6 @@ void GUI::mapDisplay() {
 			counter++;
 			isColorSelected = false;
 		}
-		
-		
 		if (input.isMouseInButton(&event, &saveButtonSpr)) {
 			window->draw(saveButton2Spr);
 		}
@@ -200,7 +198,9 @@ void GUI::mapDisplay() {
 		}
 	}
 	else if (mapMode == EDIT_MODE) {
-		//programarlo luego
+		
+		listOfRoutes.deleteTouristPointByClick(&event, &input);
+
 	}
 	else {
 
@@ -219,7 +219,7 @@ void GUI::mapDisplay() {
 		if (input.isMouseInButton(&event, &editButtonSpr)) {
 			window->draw(editButton2Spr);
 		}
-		if (input.isButtonPressedInSprite(&event, &editButton2Spr)) {
+		if (input.isButtonPressedInSprite(&event, &editButton2Spr) && allRoutesPointer != nullptr) {
 			mapMode = EDIT_MODE;
 		}
 		//if (input.isButtonPressed(&event)) {

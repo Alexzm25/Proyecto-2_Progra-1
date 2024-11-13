@@ -17,6 +17,7 @@ public:
 	string getListName() { return listName; }
 	void removeNodesByData(T* value);
 	Node<T>* getNode();
+	void setHead(Node<T>* head) { this->head = head; }
 	bool isEmpty();
 };
 
