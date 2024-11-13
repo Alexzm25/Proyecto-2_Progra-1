@@ -1,32 +1,28 @@
 <Routes>
 <Route>
-<RouteName>Ruta San Carlos</RouteName>
-<PosX>451</PosX>
-<PosY>437</PosY>
+<RouteName>Ruta 10</RouteName>
+<PosX>475</PosX>
+<PosY>448</PosY>
 <Color>255,0,0</Color>
-<PointName>sdsd</PointName>
-<PosX>411</PosX>
-<PosY>215</PosY>
-<Color>0,255,255</Color>
-<PointName>SDJHSA</PointName>
-<PosX>232</PosX>
-<PosY>281</PosY>
-<Color>255,0,255</Color>
-<PointName>sdasd</PointName>
+<PointName>Ciudad Castelia</PointName>
+<PosX>485</PosX>
+<PosY>208</PosY>
+<Color>255,0,0</Color>
+<PointName>Zona Nexo</PointName>
+<PosX>616</PosX>
+<PosY>275</PosY>
+<Color>255,0,0</Color>
+<PointName>Puente</PointName>
 </Route>
 <Route>
-<RouteName>SDSD</RouteName>
-<PosX>803</PosX>
-<PosY>423</PosY>
-<Color>255,0,0</Color>
-<PointName>sddas</PointName>
-<PosX>602</PosX>
-<PosY>227</PosY>
-<Color>255,0,0</Color>
-<PointName>sdadsasd</PointName>
-<PosX>764</PosX>
-<PosY>182</PosY>
-<Color>255,0,0</Color>
-<PointName>dssd</PointName>
+<RouteName>Ruta 5'</RouteName>
+<PosX>270</PosX>
+<PosY>444</PosY>
+<Color>255,255,0</Color>
+<PointName>Isla 1</PointName>
+<PosX>132</PosX>
+<PosY>368</PosY>
+<Color>0,255,0</Color>
+<PointName>Cueva</PointName>
 </Route>
 </Routes>

@@ -29,7 +29,8 @@ GUI::GUI() {
 	text.setFont(font);
 	text.setCharacterSize(10);
 	text.setFillColor(Color::White);
-	//filesHandler.loadFileToRoutes(allRoutesPointer);
+	allRoutesPointer = listOfRoutes.getRoutesList();
+	filesHandler.loadFileToRoutes(allRoutesPointer);
 }
 
 void GUI::setPositionSprite()
