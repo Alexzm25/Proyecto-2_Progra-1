@@ -177,7 +177,6 @@ void GUI::mapDisplay() {
 	window->draw(mapSpr);
 	window->draw(colorPaletteSpr);
 	window->draw(goBackButtonSpr);
-	window->draw(loadButtonSpr);
 	window->draw(saveButtonSpr);
 
 	drawLinesBetweenRoutes();
@@ -186,67 +185,73 @@ void GUI::mapDisplay() {
 	drawTouristPointNames();
 
 	if (mapMode == INSERT_MODE) {
-
-		colorSelection();
-	
-		if (input.isButtonPressedInSprite(&event, &mapSpr) && isColorSelected == true) {
-			listOfRoutes.addPointToRoute(&event, currentColor);
-			drawTouristPoint();
-			counterPoints++;
-			isColorSelected = false;
-		}
-		if (input.isMouseInButton(&event, &saveButtonSpr)) {
-			window->draw(saveButton2Spr);
-		}
-		if (input.isButtonPressedInSprite(&event, &saveButtonSpr) && counterPoints >= 2) { //si el counter == a 2 quiere decir que hay 2 puntos minimo
-			counterPoints = 0;
-			filesHandler.saveRoutes(allRoutesPointer);
-			mapMode = VIEW_MODE;
-			
-		}
+		insertMode();
 	}
 	else if (mapMode == EDIT_MODE) {
-		
-		listOfRoutes.deleteTouristPointByClick(&event, &input);
-
-		if (input.isMouseInButton(&event, &saveButtonSpr)) window->draw(saveButton2Spr);
-		if (input.isButtonPressedInSprite(&event, &saveButtonSpr)) {
-			filesHandler.saveRoutes(allRoutesPointer);
-			mapMode == VIEW_MODE;
-			cout << "hola";
-		}
-		if (input.isButtonPressedInSprite(&event, &goBackButtonSpr)) mapMode == VIEW_MODE;
+		editMode();
 	}
 	else {
+		viewMode();
+	}
+}
 
-		window->draw(insertButtonSpr);
-		window->draw(editButtonSpr);
+void GUI::viewMode()
+{
+	window->draw(loadButtonSpr);
+	window->draw(insertButtonSpr);
+	window->draw(editButtonSpr);
 
-		if (input.isButtonPressedInSprite(&event, &goBackButtonSpr)) gameMode = 1;
+	if (input.isButtonPressedInSprite(&event, &goBackButtonSpr)) gameMode = 1;
 
-		if (input.isMouseInButton(&event, &insertButtonSpr)) {
-			window->draw(insertButton2Spr);
-		}
-		if (input.isButtonPressedInSprite(&event, &insertButtonSpr)) {
-			mapMode = INSERT_MODE;
-			listOfRoutes.addRoute();
-			counterRoutes++;
-		}
-		if (input.isMouseInButton(&event, &editButtonSpr)) {
-			window->draw(editButton2Spr);
-		}
-		if (input.isButtonPressedInSprite(&event, &editButton2Spr) && allRoutesPointer != nullptr) {
-			mapMode = EDIT_MODE;
-		}
+	if (input.isMouseInButton(&event, &insertButtonSpr)) window->draw(insertButton2Spr);
 
-		if (input.isMouseInButton(&event, &loadButtonSpr)) {
-			window->draw(loadButton2Spr);
-		}
-		if (input.isButtonPressedInSprite(&event, &loadButtonSpr)) {
-			allRoutesPointer = listOfRoutes.getRoutesList();
-			filesHandler.loadFileToRoutes(allRoutesPointer);
+	if (input.isButtonPressedInSprite(&event, &insertButtonSpr)) {
+		mapMode = INSERT_MODE;
+		listOfRoutes.addRoute();
+		counterRoutes++;
+	}
+	if (input.isMouseInButton(&event, &editButtonSpr)) window->draw(editButton2Spr);
 
-		}
+	if (input.isButtonPressedInSprite(&event, &editButton2Spr) && allRoutesPointer != nullptr) mapMode = EDIT_MODE;
+
+	if (input.isMouseInButton(&event, &loadButtonSpr)) window->draw(loadButton2Spr);
+
+	if (input.isButtonPressedInSprite(&event, &loadButtonSpr)) {
+		allRoutesPointer = listOfRoutes.getRoutesList();
+		filesHandler.loadFileToRoutes(allRoutesPointer);
+	}
+}
+
+void GUI::editMode()
+{
+	listOfRoutes.deleteTouristPointByClick(&event, &input);
+
+	if (input.isMouseInButton(&event, &saveButtonSpr)) window->draw(saveButton2Spr);
+	if (input.isButtonPressedInSprite(&event, &saveButtonSpr)) {
+		filesHandler.saveRoutes(allRoutesPointer);
+		mapMode = VIEW_MODE;
+	}
+	if (input.isButtonPressedInSprite(&event, &goBackButtonSpr)) mapMode = VIEW_MODE;
+}
+
+void GUI::insertMode()
+{
+
+	colorSelection();
+
+	if (input.isButtonPressedInSprite(&event, &mapSpr) && isColorSelected == true) {
+		listOfRoutes.addPointToRoute(&event, currentColor);
+		drawTouristPoint();
+		counterPoints++;
+		isColorSelected = false;
+	}
+	if (input.isMouseInButton(&event, &saveButtonSpr)) {
+		window->draw(saveButton2Spr);
+	}
+	if (input.isButtonPressedInSprite(&event, &saveButtonSpr) && counterPoints >= 2) { //si el counter == a 2 quiere decir que hay 2 puntos minimo
+		counterPoints = 0;
+		filesHandler.saveRoutes(allRoutesPointer);
+		mapMode = VIEW_MODE;
 	}
 }
 

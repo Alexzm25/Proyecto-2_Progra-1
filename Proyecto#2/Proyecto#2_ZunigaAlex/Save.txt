@@ -1,2 +1,17 @@
 <Routes>
+<Route>
+<RouteName>Ruta 10</RouteName>
+<PosX>515</PosX>
+<PosY>448</PosY>
+<Color>255,255,0</Color>
+<PointName>Ciudad Carmin</PointName>
+<PosX>503</PosX>
+<PosY>289</PosY>
+<Color>0,255,0</Color>
+<PointName>Ciudad Mayolica</PointName>
+<PosX>650</PosX>
+<PosY>281</PosY>
+<Color>0,255,255</Color>
+<PointName>Puente Union</PointName>
+</Route>
 </Routes>

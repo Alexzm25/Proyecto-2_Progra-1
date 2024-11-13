@@ -1,6 +1,6 @@
 ﻿  GUI.cpp
-C:\Users\Al3xz\Documents\GitHub\Proyecto-2_Progra-1\Proyecto(215,12): warning C4553: '==': result of expression not used; did you intend '='?
-C:\Users\Al3xz\Documents\GitHub\Proyecto-2_Progra-1\Proyecto(218,72): warning C4553: '==': result of expression not used; did you intend '='?
-C:\Users\Al3xz\Documents\GitHub\Proyecto-2_Progra-1\Proyecto(271,30): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Al3xz\Documents\GitHub\Proyecto-2_Progra-1\Proyecto(278,31): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Al3xz\Documents\GitHub\Proyecto-2_Progra-1\Proyecto(276,30): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Al3xz\Documents\GitHub\Proyecto-2_Progra-1\Proyecto(283,31): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  main.cpp
+  Generating Code...
   Proyecto#2_ZunigaAlex.vcxproj -> C:\Users\Al3xz\Documents\GitHub\Proyecto-2_Progra-1\Proyecto#2\Proyecto#2_ZunigaAlex\x64\Debug\Proyecto#2_ZunigaAlex.exe

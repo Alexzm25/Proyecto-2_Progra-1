@@ -48,6 +48,9 @@ public:
 	void drawTouristPoint();
 	void menuDisplay();
 	void mapDisplay();
+	void viewMode();
+	void editMode();
+	void insertMode();
 	void windowDisplay();
 	void drawTouristPointNames();
 	void drawLinesBetweenRoutes();
