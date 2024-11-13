@@ -29,8 +29,6 @@ GUI::GUI() {
 	textTitles.setFont(font);
 	textPoints.setFont(font);
 	textTitles.setFillColor(Color::White);
-	//allRoutesPointer = listOfRoutes.getRoutesList();
-	//filesHandler.loadFileToRoutes(allRoutesPointer);
 }
 
 void GUI::setPositionSprite()
@@ -48,6 +46,8 @@ void GUI::setPositionSprite()
 	saveButton2Spr.setPosition(1030, 425);
 	goBackButtonSpr.setPosition(1, 670);
 	colorPaletteSpr.setPosition(984, 580);
+	loadButtonSpr.setPosition(1030, 274);
+	loadButton2Spr.setPosition(1030, 274);
 }
 
 void GUI::setTexturesInSprite()
@@ -69,6 +69,8 @@ void GUI::setTexturesInSprite()
 	mapBackgroundSpr.setTexture(mapBackgroundTxt);
 	mapSpr.setTexture(mapTxt);
 	colorPaletteSpr.setTexture(colorPaletteTxt);
+	loadButtonSpr.setTexture(loadButtonTxt);
+	loadButton2Spr.setTexture(loadButton2Txt);
 }
 
 void GUI::loadFiles()
@@ -90,6 +92,8 @@ void GUI::loadFiles()
 	mapBackgroundTxt.loadFromFile("../assets/images/img_mapBackground.png");
 	mapTxt.loadFromFile("../assets/images/img_unovaMap.jpg");
 	colorPaletteTxt.loadFromFile("../assets/images/img_colorPalette.png");
+	loadButtonTxt.loadFromFile("../assets/images/img_loadButton1.png");
+	loadButton2Txt.loadFromFile("../assets/images/img_loadButton2.png");
 	font.loadFromFile("../assets/font/Roboto-Medium.ttf");
 }
 
@@ -178,7 +182,7 @@ void GUI::mapDisplay() {
 	window->draw(mapSpr);
 	window->draw(colorPaletteSpr);
 	window->draw(goBackButtonSpr);
-
+	window->draw(loadButtonSpr);
 	window->draw(saveButtonSpr);
 
 	drawLinesBetweenRoutes();
@@ -210,6 +214,12 @@ void GUI::mapDisplay() {
 		
 		listOfRoutes.deleteTouristPointByClick(&event, &input);
 
+		if (input.isMouseInButton(&event, &saveButtonSpr)) window->draw(saveButton2Spr);
+		if (input.isButtonPressedInSprite(&event, &saveButtonSpr)) {
+			filesHandler.saveRoutes(allRoutesPointer);
+			mapMode == VIEW_MODE;
+		}
+		if (input.isButtonPressedInSprite(&event, &goBackButtonSpr)) mapMode == VIEW_MODE;
 	}
 	else {
 
@@ -232,14 +242,14 @@ void GUI::mapDisplay() {
 		if (input.isButtonPressedInSprite(&event, &editButton2Spr) && allRoutesPointer != nullptr) {
 			mapMode = EDIT_MODE;
 		}
-		if (input.isButtonPressed(&event)) {
-			//CODIGO TEMPORAL, SOLO PARA VER COORDENADAS XY
-			int posX = event.mouseButton.x;
-			int posY = event.mouseButton.y;
 
-			cout << "X: " << posX << "\n";
-			cout << "Y: " << posY << "\n";
-			//CODIGO TEMPORAL, SOLO PARA VER COORDENADAS XY
+		if (input.isMouseInButton(&event, &loadButtonSpr)) {
+			window->draw(loadButton2Spr);
+		}
+		if (input.isButtonPressedInSprite(&event, &loadButtonSpr)) {
+			allRoutesPointer = listOfRoutes.getRoutesList();
+			filesHandler.loadFileToRoutes(allRoutesPointer);
+
 		}
 	}
 }
@@ -258,67 +268,6 @@ void GUI::colorSelection() {
 	}
 }
 
-VertexArray GUI::generateSpline(const Vector2f* points, int numPoints) {
-	VertexArray curve(LineStrip);
-
-	if (numPoints < 2) return curve;
-
-	for (int i = 0; i < numPoints - 1; ++i) {
-		Vector2f p0 = points[i];
-		Vector2f p1 = points[i + 1];
-
-		// Calcula los vectores de tangente en p0 y p1
-		Vector2f m0 = (i == 0) ? MathUtils::calculateTangent(p0, points[i + 1]) :
-			MathUtils::calculateTangent(points[i - 1], points[i + 1]);
-		Vector2f m1 = (i == numPoints - 2) ? MathUtils::calculateTangent(points[i], p1) :
-			MathUtils::calculateTangent(points[i], points[i + 2]);
-
-		// Genera los puntos interpolados para el segmento entre p0 y p1
-		for (float t = 0; t < 1.0f; t += 0.05f) {
-			Vector2f interpolatedPoint = MathUtils::interpolate(p0, p1, m0, m1, t);
-			curve.append(Vertex(interpolatedPoint, Color::Yellow));
-		}
-	}
-	return curve;
-}
-
-void GUI::drawRoutes() {
-	allRoutesPointer = listOfRoutes.getRoutesList();
-
-	Node<List<TouristPoint>>* currentRouteNode = allRoutesPointer->getNode();
-
-	while (currentRouteNode != nullptr) {
-		List<TouristPoint>* route = currentRouteNode->getData();
-
-		// Contar manualmente los puntos en route
-		int numPoints = 0;
-		Node<TouristPoint>* tempNode = route->getNode();
-		while (tempNode != nullptr) {
-			numPoints++;
-			tempNode = tempNode->getNext();
-		}
-
-		// Crear el arreglo de puntos
-		Vector2f* points = new Vector2f[numPoints];
-
-		// Llenar el arreglo con los puntos de TouristPoint
-		int index = 0;
-		tempNode = route->getNode();
-		while (tempNode != nullptr) {
-			points[index++] = Vector2f(tempNode->getData()->getPosX(), tempNode->getData()->getPosY());
-			tempNode = tempNode->getNext();
-		}
-
-		// Generar la línea de la ruta y dibujarla
-		VertexArray spline = generateSpline(points, numPoints);
-		window->draw(spline);
-
-		// Liberar la memoria de points
-		delete[] points;
-
-		currentRouteNode = currentRouteNode->getNext();
-	}
-}
 void GUI::drawRoutesNamesInScreen() {
 	int posY = 29;
 	
@@ -336,8 +285,6 @@ void GUI::drawRoutesNamesInScreen() {
 		posY += 26;
 		window->draw(textTitles);
 	}
-
-
 }
 void GUI::drawTouristPointNames() {
 
@@ -362,8 +309,6 @@ void GUI::drawTouristPointNames() {
 		currentRouteNode = currentRouteNode->getNext();
 		
 	}
-
-
 }
 void GUI::drawLinesBetweenRoutes() {
 	if (allRoutesPointer == nullptr || allRoutesPointer->getNode() == nullptr) return;
@@ -411,18 +356,15 @@ void GUI::drawLinesBetweenRoutes() {
 						lines.append(Vertex(Vector2f(x - 1.2f, y + 1.2f), Color::Yellow));
 					}
 				}
-
 				// Avanzar en los nodos
 				p0 = p1;
 				p1 = p2;
 				p2 = p3;
 				p3 = (p3 != nullptr) ? p3->getNext() : nullptr;
 			}
-
 			// Dibuja las líneas generadas en la ventana
 			window->draw(lines);
 		}
-
 		// Avanzar a la siguiente ruta en allRoutesPointer
 		currentRouteNode = currentRouteNode->getNext();
 	}

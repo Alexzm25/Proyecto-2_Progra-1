@@ -62,7 +62,7 @@ void RouteList::deleteTouristPointByClick(Event* event, InputHandler* input) {
 					else {
 						currentRouteNode->getData()->setHead(nextNode);
 					}
-					if (nextNode != nullptr); {
+					if (nextNode != nullptr) {
 						nextNode->setPrevious(previousNode);
 					}
 

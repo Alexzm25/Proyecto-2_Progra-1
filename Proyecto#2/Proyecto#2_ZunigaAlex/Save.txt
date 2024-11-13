@@ -1,29 +1,5 @@
 <Routes>
 <Route>
 <RouteName>Ruta 10</RouteName>
-<PosX>482</PosX>
-<PosY>292</PosY>
-<Color>255,0,0</Color>
-<PointName>Ciudad Mayolica</PointName>
-<PosX>278</PosX>
-<PosY>290</PosY>
-<Color>255,0,0</Color>
-<PointName>Ciudad Fayenza</PointName>
-<PosX>105</PosX>
-<PosY>182</PosY>
-<Color>0,255,255</Color>
-<PointName>Ciudad Loza</PointName>
-<PosX>465</PosX>
-<PosY>124</PosY>
-<Color>255,0,255</Color>
-<PointName>Ciudad Caolin</PointName>
-<PosX>765</PosX>
-<PosY>124</PosY>
-<Color>0,255,0</Color>
-<PointName>Pueblo Ladrillo</PointName>
-<PosX>815</PosX>
-<PosY>216</PosY>
-<Color>255,255,0</Color>
-<PointName>Pueblo Arenisca</PointName>
 </Route>
 </Routes>

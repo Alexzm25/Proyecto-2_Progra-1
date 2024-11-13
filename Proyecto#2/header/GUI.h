@@ -3,7 +3,6 @@
 #include <SFML/Audio.hpp>
 #include "../header/InputHandler.h"
 #include "../header/RouteList.h"
-#include "../header/MathUtils.h"
 #include "../header/FileManager.h"
 
 #define MAP_MODE 0
@@ -76,8 +75,6 @@ private:
 	int gameMode;
 	int mapMode;
 	
-	VertexArray generateSpline(const Vector2f* points, int numPoints);
-	
 public:
 	GUI();
 	void setPositionSprite();
@@ -88,7 +85,6 @@ public:
 	void menuDisplay();
 	void mapDisplay();
 	void windowDisplay();
-	void drawRoutes();
 	void drawTouristPointNames();
 	void drawLinesBetweenRoutes();
 	void drawRoutesNamesInScreen();

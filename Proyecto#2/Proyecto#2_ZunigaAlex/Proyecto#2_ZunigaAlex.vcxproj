@@ -134,7 +134,6 @@
     <ClCompile Include="..\src\GUI.cpp" />
     <ClCompile Include="..\src\InputHandler.cpp" />
     <ClCompile Include="..\src\main.cpp" />
-    <ClCompile Include="..\src\MathUtils.cpp" />
     <ClCompile Include="..\src\RouteList.cpp" />
     <ClCompile Include="..\src\TouristPoint.cpp" />
   </ItemGroup>
@@ -143,7 +142,6 @@
     <ClInclude Include="..\header\GUI.h" />
     <ClInclude Include="..\header\InputHandler.h" />
     <ClInclude Include="..\header\List.h" />
-    <ClInclude Include="..\header\MathUtils.h" />
     <ClInclude Include="..\header\Node.h" />
     <ClInclude Include="..\header\RouteList.h" />
     <ClInclude Include="..\header\TouristPoint.h" />
