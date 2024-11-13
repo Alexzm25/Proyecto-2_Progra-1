@@ -19,61 +19,25 @@ private:
 	Music backgroundMusic;
 	InputHandler input;
 	Event event;
-	RouteList listOfRoutes;
-
-	Texture backgroundTxt;
-	Texture startOptionTxt;
-	Texture startOption2Txt;
-	Texture startOption3Txt;
-	Texture closeOptionTxt;
-	Texture closeOption2Txt;
-
-	Texture mapBackgroundTxt;
-	Texture insertButtonTxt;
-	Texture insertButton2Txt;
-	Texture editButtonTxt;
-	Texture editButton2Txt;
-	Texture saveButtonTxt;
-	Texture saveButton2Txt;
-	Texture loadButtonTxt;
-	Texture loadButton2Txt;
-	Texture goBackButtonTxt;
-	Texture mapTxt;
-	Texture colorPaletteTxt;
-
-	Sprite backgroundSpr;
-	Sprite startOptionSpr;
-	Sprite startOption2Spr;
-	Sprite startOption3Spr;
-	Sprite closeOptionSpr;
-	Sprite closeOption2Spr;
-
-	Sprite insertButtonSpr;
-	Sprite insertButton2Spr;
-	Sprite editButtonSpr;
-	Sprite editButton2Spr;
-	Sprite saveButtonSpr;
-	Sprite saveButton2Spr;
-	Sprite loadButtonSpr;
-	Sprite loadButton2Spr;
-	Sprite goBackButtonSpr;
-	Sprite mapBackgroundSpr;
-	Sprite mapSpr;
-	Sprite colorPaletteSpr;
-
-	List<List<TouristPoint>>* allRoutesPointer;
 	FileManager filesHandler;
+	RouteList listOfRoutes;
+	List<List<TouristPoint>>* allRoutesPointer;
+
+	Texture backgroundTxt, startOptionTxt, startOption2Txt, startOption3Txt, closeOptionTxt, closeOption2Txt, mapBackgroundTxt,
+		insertButtonTxt, insertButton2Txt ,editButtonTxt, editButton2Txt, saveButtonTxt, saveButton2Txt, loadButtonTxt,
+		loadButton2Txt, goBackButtonTxt, mapTxt, colorPaletteTxt;
+
+	Sprite backgroundSpr, startOptionSpr, startOption2Spr, startOption3Spr, closeOptionSpr, closeOption2Spr, insertButtonSpr,
+		insertButton2Spr, editButtonSpr, editButton2Spr, saveButtonSpr, saveButton2Spr, loadButtonSpr, loadButton2Spr, 
+		goBackButtonSpr, mapBackgroundSpr, mapSpr, colorPaletteSpr;
 
 	CircleShape wayPoint;
 	Color currentColor;
-	RectangleShape boxTitle;
 	Font font;
 	Text textTitles, textPoints;
 
 	bool isSoundPlayable, isColorSelected;
-	int counterPoints, counterRoutes;
-	int gameMode;
-	int mapMode;
+	int counterPoints, counterRoutes, gameMode, mapMode;
 	
 public:
 	GUI();

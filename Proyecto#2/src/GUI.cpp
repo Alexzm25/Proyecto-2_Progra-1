@@ -10,7 +10,7 @@ GUI::GUI() {
 	
 	buttonSound.setBuffer(buttonBuffer);	
 
-	isColorSelected=false;
+	isColorSelected = false;
 
 	gameMode = MENU_MODE;
 
@@ -24,8 +24,6 @@ GUI::GUI() {
 	setTexturesInSprite();
 	setPositionSprite();
 	
-	boxTitle.setFillColor(Color::Transparent);
-	boxTitle.setScale(200, 200);
 	textTitles.setFont(font);
 	textPoints.setFont(font);
 	textTitles.setFillColor(Color::White);
@@ -113,12 +111,9 @@ void GUI::drawTouristPoint() {
 				window->draw(wayPoint);
 				auxPoint = auxPoint->getNext();
 			}
-
 			currentRouteNode = currentRouteNode->getNext();
 		}
-
 	}
-	
 }
 
 void GUI::windowDisplay() {
@@ -218,6 +213,7 @@ void GUI::mapDisplay() {
 		if (input.isButtonPressedInSprite(&event, &saveButtonSpr)) {
 			filesHandler.saveRoutes(allRoutesPointer);
 			mapMode == VIEW_MODE;
+			cout << "hola";
 		}
 		if (input.isButtonPressedInSprite(&event, &goBackButtonSpr)) mapMode == VIEW_MODE;
 	}
@@ -317,10 +313,10 @@ void GUI::drawLinesBetweenRoutes() {
 
 	while (currentRouteNode != nullptr) {  // Iterar sobre cada ruta
 		Node<TouristPoint>* pointList = currentRouteNode->getData()->getNode();
-
+		
 		if (pointList != nullptr && pointList->getNext() != nullptr) {
 			VertexArray lines(Quads);
-
+			Color lineColor = pointList->getData()->getPointColor();
 			Node<TouristPoint>* p0 = nullptr;
 			Node<TouristPoint>* p1 = pointList;
 			Node<TouristPoint>* p2 = pointList->getNext();
@@ -350,10 +346,10 @@ void GUI::drawLinesBetweenRoutes() {
 						h4 * (p3 ? p3->getData()->getPosY() - p1->getData()->getPosY() : p2->getData()->getPosY() - p1->getData()->getPosY());
 
 					if (mapSpriteBounds.contains(x, y)) {
-						lines.append(Vertex(Vector2f(x - 1.2f, y - 1.2f), Color::Yellow));
-						lines.append(Vertex(Vector2f(x + 1.2f, y - 1.2f), Color::Yellow));
-						lines.append(Vertex(Vector2f(x + 1.2f, y + 1.2f), Color::Yellow));
-						lines.append(Vertex(Vector2f(x - 1.2f, y + 1.2f), Color::Yellow));
+						lines.append(Vertex(Vector2f(x - 1.2f, y - 1.2f), lineColor));
+						lines.append(Vertex(Vector2f(x + 1.2f, y - 1.2f), lineColor));
+						lines.append(Vertex(Vector2f(x + 1.2f, y + 1.2f), lineColor));
+						lines.append(Vertex(Vector2f(x - 1.2f, y + 1.2f), lineColor));
 					}
 				}
 				// Avanzar en los nodos

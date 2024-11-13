@@ -1,5 +1,2 @@
 <Routes>
-<Route>
-<RouteName>Ruta 10</RouteName>
-</Route>
 </Routes>
